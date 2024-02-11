@@ -166,11 +166,21 @@ function Bookmark(_ref) {
   } = _ref;
   return /*#__PURE__*/React.createElement("div", {
     className: _Bookmark_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].bookmark
-  }, " ", bookmark.title, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("a", {
+    href: bookmark.url
+  }, bookmark.title), /*#__PURE__*/React.createElement("button", {
     className: _Bookmark_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].button,
     onClick: () => buttonAction(bookmark._id)
   }, buttonText));
 }
+{/* <div className={styles.bookmark}> {bookmark.title}
+            <button
+                className={styles.button}
+                onClick={() => buttonAction(bookmark._id)}
+            >
+                {buttonText}
+            </button>
+        </div> */}
 
 /***/ }),
 
@@ -206,7 +216,7 @@ function BookmarkList(_ref) {
   } = _ref;
   return /*#__PURE__*/React.createElement("div", {
     className: _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].BookmarkList
-  }, "Add New Bookmark:", /*#__PURE__*/React.createElement("input", {
+  }, "Bookmark Nick Name:", /*#__PURE__*/React.createElement("input", {
     className: _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].input,
     type: "text",
     value: newBookmark.title,
@@ -218,7 +228,20 @@ function BookmarkList(_ref) {
     onKeyDown: e => {
       e.key === 'Enter' && createBookmark();
     }
+  }), /*#__PURE__*/React.createElement("br", null), "Url Address:", /*#__PURE__*/React.createElement("input", {
+    className: _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].input,
+    type: "text",
+    value: newBookmark.url,
+    onChange: e => {
+      setNewBookmark(_objectSpread(_objectSpread({}, newBookmark), {}, {
+        title: e.target.value
+      }));
+    },
+    onKeyDown: e => {
+      e.key === 'Enter' && createBookmark();
+    }
   }), /*#__PURE__*/React.createElement("h3", null, "Bookmarks"), bookmarks.map(bookmark => /*#__PURE__*/React.createElement(_Bookmark_Bookmark__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    name: bookmark.title,
     key: bookmark._id,
     bookmark: bookmark,
     buttonAction: immutable__WEBPACK_IMPORTED_MODULE_2__.update,
@@ -389,7 +412,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.IaH4ae35X8t_aJfFYwAy {
   margin: 3rem;
   border: 0;
   background-color: aliceblue;
-}`, "",{"version":3,"sources":["webpack://./src/components/BookmarkList/BookmarkList.module.scss"],"names":[],"mappings":"AAAA;EACI,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,mBAAA;EACA,eAAA;EACA,2BAAA;EACA,kBAAA;EACA,sCAAA;EACA,aAAA;EACA,YAAA;EACA,4CAAA;AACJ;AAAI;EACI,6BAAA;EACA,qBAAA;EACA,iBAAA;EACA,cAAA;EACA,YAAA;EACA,SAAA;EACA,2BAAA;AAER","sourcesContent":[".bookmarkList {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    font-size: 2rem;\n    color: rgba(23,5, 58, 0.8);\n    border-radius: 9px;\n    border: 1px solid rgba(23,5, 58, 0.1);\n    padding: 2rem;\n    margin: 2rem;\n    box-shadow: 2px 4px 8px rgba(23,5, 58, 0.5);\n    .input {\n        color:rgba(89, 15, 230, 0.8);\n        display: inline-block;\n        font-size: 2.5rem;\n        height: 3.5rem;\n        margin: 3rem;\n        border: 0;\n        background-color:aliceblue;\n    }\n}\n"],"sourceRoot":""}]);
+  align-items: right;
+  justify-content: right;
+  text-align: right;
+}`, "",{"version":3,"sources":["webpack://./src/components/BookmarkList/BookmarkList.module.scss"],"names":[],"mappings":"AAAA;EACI,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,mBAAA;EACA,eAAA;EACA,2BAAA;EACA,kBAAA;EACA,sCAAA;EACA,aAAA;EACA,YAAA;EACA,4CAAA;AACJ;AAAI;EACI,6BAAA;EACA,qBAAA;EACA,iBAAA;EACA,cAAA;EACA,YAAA;EACA,SAAA;EACA,2BAAA;EACA,kBAAA;EACA,sBAAA;EACA,iBAAA;AAER","sourcesContent":[".bookmarkList {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    font-size: 2rem;\n    color: rgba(23,5, 58, 0.8);\n    border-radius: 9px;\n    border: 1px solid rgba(23,5, 58, 0.1);\n    padding: 2rem;\n    margin: 2rem;\n    box-shadow: 2px 4px 8px rgba(23,5, 58, 0.5);\n    .input {\n        color:rgba(89, 15, 230, 0.8);\n        display: inline-block;\n        font-size: 2.5rem;\n        height: 3.5rem;\n        margin: 3rem;\n        border: 0;\n        background-color:aliceblue;\n        align-items: right;\n        justify-content: right;\n        text-align: right;\n    }\n}\n"],"sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"bookmarkList": `IaH4ae35X8t_aJfFYwAy`,
@@ -730,4 +756,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.58cc7163a90747564c7c44abfca4c0f4.js.map
+//# sourceMappingURL=App.982fbe60937a3137389516904d4d8090.js.map
