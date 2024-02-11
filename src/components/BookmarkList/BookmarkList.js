@@ -1,5 +1,6 @@
 import styles from './BookmarkList.module.scss'
 import Bookmark from '../Bookmark/Bookmark'
+import { update } from 'immutable'
 
 export default function BookmarkList ({
     newBookmark,
@@ -23,17 +24,15 @@ export default function BookmarkList ({
             />
              <h3>Bookmarks</h3>
 
-        {/*
-        EXAMINE EDIT AND OR DELETE THIS BUTTON ROUTE -> NO NEED TO COMPLETE. ELECT TO UPDATE OR ELSE REMOVE.
+        {
         bookmarks.map(bookmark => (
             <Bookmark
                 key={bookmark._id}
                 bookmark={bookmark}
-                buttonAction={moveToCompleted}
-                buttonText={'Complete'}
+                buttonAction={update}
+                buttonText={'Update'}
             />
-        ))*/}
-        <h3>Bookmarks</h3>
+        ))}
         {bookmarks.map(bookmark =>(
             <Bookmark
                 key={bookmark._id}

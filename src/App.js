@@ -32,6 +32,50 @@ export default function App(){
             console.error(error)
         }
     }
+
+    //updateBookmark
+    // const updateBookmark = async () => {
+    //     const body = {...newBookmark}
+    //     try {
+    //         const response = await put('/api/bookmarks', {
+    //             method: 'PUT',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify(body)
+    //         })
+    //         const updatedBookmark = await response.json()
+    //         setBookmark(updatedBookmark)
+    //         setNewBookmark({
+    //             title: '',
+    //             url: ''
+    //         })
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+
+    // //moveToCompleted
+    const updateBookmark = async (id) => {
+        try {
+            const index = bookmarks.findIndex((bookmark) => bookmark._id === id)
+            const bookmarksCopy = [...bookmarks]
+            const subject = bookmarksCopy[index]
+            const response = await fetch(`/api/bookmarks/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(subject)
+            })
+            const updatedBookmark = await response.json()
+            bookmarksCopy.splice(index, 1)
+            setBookmarks(updatedBookmark, ...bookmarksCopy)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     //deleteBookmarks
     const deleteBookmark = async (id) => {
         try {
@@ -50,30 +94,7 @@ export default function App(){
             console.error(error)
         }
     }
-    // // below is unnecessary. Refactor for an update of some kind or delete. UPDATE!!!
-    // //moveToCompleted
-    // const moveToCompleted = async (id) => {
-    //     try {
-    //         const index = todos.findIndex((todo) => todo._id === id)
-    //         const todosCopy = [...todos]
-    //         const subject = todosCopy[index]
-    //         subject.completed = true
-    //         const response = await fetch(`/api/todos/${id}`, {
-    //             method: 'PUT',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(subject)
-    //         })
-    //         const updatedTodo = await response.json()
-    //         const completedTDsCopy = [updatedTodo, ...completedTodos]
-    //         setCompletedTodos(completedTDsCopy)
-    //         todosCopy.splice(index, 1)
-    //         setTodos(todosCopy)
-    //     } catch (error) {
-    //         console.error(error)
-    //     }
-    // }
+
     //getBookmarks
     const getBookmarks = async () => {
         try{
@@ -81,9 +102,6 @@ export default function App(){
             const foundBookmarks = await response.json()
             setBookmarks(foundBookmarks.reverse())
             console.log('hey-yo!')
-            // const responseTwo = await fetch('/api/todos/completed')
-            // const foundCompletedTodos = await responseTwo.json()
-            // setCompletedTodos(foundCompletedTodos.reverse())
         } catch(error){
             console.error(error)
         }
@@ -102,6 +120,7 @@ export default function App(){
             newBookmark={newBookmark}
             setNewBookmark={setNewBookmark}
             createBookmark={createBookmark}
+            updateBookmark={updateBookmark}
             bookmarks={bookmarks}
             deleteBookmark={deleteBookmark}
             />

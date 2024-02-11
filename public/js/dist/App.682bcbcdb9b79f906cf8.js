@@ -53,6 +53,50 @@ function App() {
       console.error(error);
     }
   };
+
+  //updateBookmark
+  // const updateBookmark = async () => {
+  //     const body = {...newBookmark}
+  //     try {
+  //         const response = await put('/api/bookmarks', {
+  //             method: 'PUT',
+  //             headers: {
+  //                 'Content-Type': 'application/json'
+  //             },
+  //             body: JSON.stringify(body)
+  //         })
+  //         const updatedBookmark = await response.json()
+  //         setBookmark(updatedBookmark)
+  //         setNewBookmark({
+  //             title: '',
+  //             url: ''
+  //         })
+  //     } catch (error) {
+  //         console.log(error)
+  //     }
+  // }
+
+  // //moveToCompleted
+  const updateBookmark = async id => {
+    try {
+      const index = bookmarks.findIndex(bookmark => bookmark._id === id);
+      const bookmarksCopy = [...bookmarks];
+      const subject = bookmarksCopy[index];
+      const response = await fetch("/api/bookmarks/".concat(id), {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(subject)
+      });
+      const updatedBookmark = await response.json();
+      bookmarksCopy.splice(index, 1);
+      setBookmarks(updatedBookmark, ...bookmarksCopy);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   //deleteBookmarks
   const deleteBookmark = async id => {
     try {
@@ -71,30 +115,7 @@ function App() {
       console.error(error);
     }
   };
-  // // below is unnecessary. Refactor for an update of some kind or delete. UPDATE!!!
-  // //moveToCompleted
-  // const moveToCompleted = async (id) => {
-  //     try {
-  //         const index = todos.findIndex((todo) => todo._id === id)
-  //         const todosCopy = [...todos]
-  //         const subject = todosCopy[index]
-  //         subject.completed = true
-  //         const response = await fetch(`/api/todos/${id}`, {
-  //             method: 'PUT',
-  //             headers: {
-  //                 'Content-Type': 'application/json'
-  //             },
-  //             body: JSON.stringify(subject)
-  //         })
-  //         const updatedTodo = await response.json()
-  //         const completedTDsCopy = [updatedTodo, ...completedTodos]
-  //         setCompletedTodos(completedTDsCopy)
-  //         todosCopy.splice(index, 1)
-  //         setTodos(todosCopy)
-  //     } catch (error) {
-  //         console.error(error)
-  //     }
-  // }
+
   //getBookmarks
   const getBookmarks = async () => {
     try {
@@ -102,9 +123,6 @@ function App() {
       const foundBookmarks = await response.json();
       setBookmarks(foundBookmarks.reverse());
       console.log('hey-yo!');
-      // const responseTwo = await fetch('/api/todos/completed')
-      // const foundCompletedTodos = await responseTwo.json()
-      // setCompletedTodos(foundCompletedTodos.reverse())
     } catch (error) {
       console.error(error);
     }
@@ -120,6 +138,7 @@ function App() {
     newBookmark: newBookmark,
     setNewBookmark: setNewBookmark,
     createBookmark: createBookmark,
+    updateBookmark: updateBookmark,
     bookmarks: bookmarks,
     deleteBookmark: deleteBookmark
   }));
@@ -166,12 +185,15 @@ function Bookmark(_ref) {
 /* harmony export */ });
 /* harmony import */ var _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BookmarkList.module.scss */ "./src/components/BookmarkList/BookmarkList.module.scss");
 /* harmony import */ var _Bookmark_Bookmark__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Bookmark/Bookmark */ "./src/components/Bookmark/Bookmark.js");
+/* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.js");
+/* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(immutable__WEBPACK_IMPORTED_MODULE_2__);
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : String(i); }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
 
 
 function BookmarkList(_ref) {
@@ -196,7 +218,12 @@ function BookmarkList(_ref) {
     onKeyDown: e => {
       e.key === 'Enter' && createBookmark();
     }
-  }), /*#__PURE__*/React.createElement("h3", null, "Bookmarks"), /*#__PURE__*/React.createElement("h3", null, "Bookmarks"), bookmarks.map(bookmark => /*#__PURE__*/React.createElement(_Bookmark_Bookmark__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }), /*#__PURE__*/React.createElement("h3", null, "Bookmarks"), bookmarks.map(bookmark => /*#__PURE__*/React.createElement(_Bookmark_Bookmark__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    key: bookmark._id,
+    bookmark: bookmark,
+    buttonAction: immutable__WEBPACK_IMPORTED_MODULE_2__.update,
+    buttonText: 'Update'
+  })), bookmarks.map(bookmark => /*#__PURE__*/React.createElement(_Bookmark_Bookmark__WEBPACK_IMPORTED_MODULE_1__["default"], {
     key: bookmark._id,
     bookmark: bookmark,
     buttonAction: deleteBookmark,
@@ -552,7 +579,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
@@ -698,9 +725,9 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_css-loader_dist_runtime_api_js-node_modules_css-loader_dist_runtime_sour-b53f7e"], () => (__webpack_require__("./src/index.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_css-loader_dist_runtime_api_js-node_modules_css-loader_dist_runtime_sour-0ab90a"], () => (__webpack_require__("./src/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.ba39419ee34c883fa1a91c99b6961160.js.map
+//# sourceMappingURL=App.58cc7163a90747564c7c44abfca4c0f4.js.map
