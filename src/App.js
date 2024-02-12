@@ -3,8 +3,6 @@ import BookmarkList from './components/BookmarkList/BookmarkList'
 import styles from './App.module.scss'
 import SearchBar from './components/Searchbar'
 
-
-
 // BELOW : Algorithm to sort alphabetically. I'm using quick sort just to get on with my life.
 
 // FOR SOME REASON the quick sort algorithm below was breaking the web app; unsure why.
@@ -30,19 +28,20 @@ function quickSort(array) {
 }
 
 export default function App(){
+    const [searchResults, setSearchResults] = useState([])
     const [bookmarks, setBookmarks] = useState([])
     const [newBookmark, setNewBookmark] = useState({
         title: '',
         url: ''
     })
 
-    // search bar
-    const search = async () => {
-        return (
-            <div classname='App'>
-                <SearchBar/>
-            </div>
-        )
+    const handleSearch = (searchTerm) => {
+        if (searchInput.length > 0) {
+            bookmarks.filter((bookmark) => {
+                return bookmark.title.match(searchInput)
+            })
+        }
+        console.log('Test me search params.')
     }
 
     //createBookmarks
@@ -141,12 +140,13 @@ const getBookmarks = async () => {
     }, [])
     return(
         <>
-
             <div className={styles.banner}>
                 <h1>Bookmarks Application Laz Edition</h1>
               <img src='https://i.redd.it/46yihi74emdc1.jpeg'/>
             </div>
-            {/* <SearchBar/> */}
+            <div className="searchbar">
+                <SearchBar onSearch={handleSearch} />
+            </div>
             <BookmarkList
             newBookmark={newBookmark}
             setNewBookmark={setNewBookmark}

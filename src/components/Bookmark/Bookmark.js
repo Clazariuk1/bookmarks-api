@@ -7,7 +7,7 @@ import styles from './Bookmark.module.scss'
 export default function Bookmark({ bookmark, buttonAction, buttonText}){
     return(
         <div className={styles.bookmark}>
-        <a href={bookmark.url}>{bookmark.title}</a>
+        <a href={bookmark.url} class="link">{bookmark.title}</a>
         <button
                 className={styles.button}
                 onClick={() => buttonAction(bookmark._id)}
@@ -21,7 +21,7 @@ export default function Bookmark({ bookmark, buttonAction, buttonText}){
                 {buttonText}
             </button>
             <label>Chosen Tags: </label>
-            <div className={bookmark.title}>
+            <div className="bookmark__title">
                 {/* {bookmark.tags} */}
             </div>
         </div>

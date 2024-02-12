@@ -1,27 +1,30 @@
 import React, { useState } from 'react'
 
-// how do I specify where the search result will display? Suddenly my whole app is crashed.
+// how do I specify where the search result will display?
+// WHY can't I place my searchbar anywhere?
 
-const searchBar = () => {
+const SearchBar = ({onSearch}) => {
     const [searchInput, setSearchInput] = useState('')
 
-    const bookmarks = [...bookmarks]
+    // const bookmarks = [...bookmarks]
 
     const handleChange = (e) => {
         e.preventDefault()
         setSearchInput(e.target.value)
     }
-    if (searchInput.length > 0) {
-        bookmarks.filter((bookmark) => {
-            return bookmark.title.match(searchInput)
-        })
+    const handleSearch = () => {
+        onSearch(searchInput)
     }
+
     return <div>
-        <input type="search"
-        placeholder="Search here"
+        <input type="text"
+        placeholder="Search..."
         onChange={handleChange}
         value={searchInput} />
+        <button onClick={handleSearch}>Search</button>
     </div>
 }
 
-export default searchBar
+export default SearchBar
+
+// I have no idea why but trying to move searchbar file into its own folder broke the whole thing

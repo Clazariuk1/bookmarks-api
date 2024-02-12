@@ -1,5 +1,6 @@
 import styles from './BookmarkList.module.scss'
 import Bookmark from '../Bookmark/Bookmark'
+import SearchBar from '../Searchbar'
 import { update } from 'immutable'
 
 export default function BookmarkList({
@@ -10,6 +11,8 @@ export default function BookmarkList({
     deleteBookmark
 }) {
     return (
+        <>
+        {/*<SearchBar>rtyrt</SearchBar> */}
         <div className={styles.BookmarkList}>
             <label>Bookmark Nick Name:</label>
             <input
@@ -49,10 +52,11 @@ export default function BookmarkList({
                 }
                 }
             />
+            <br></br>
             <label>Tags:</label>
             <select className={styles.input}
                 onChange={(e) => {
-                    setNewBookmark({ ...newBookmark, tag: e.target.value })
+                    setNewBookmark({ ...newBookmark, tags: e.target.value })
                 }}
                 >
                 <option value="Favorite">Favorite</option>
@@ -81,5 +85,6 @@ export default function BookmarkList({
                     </div>
                 ))}
         </div>
+        </>
     )
 }

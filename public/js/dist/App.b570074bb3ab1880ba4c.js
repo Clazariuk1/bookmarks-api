@@ -50,17 +50,19 @@ function quickSort(array) {
   return sortedLeft.concat(pivot, sortedRight);
 }
 function App() {
+  const [searchResults, setSearchResults] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [bookmarks, setBookmarks] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [newBookmark, setNewBookmark] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     title: '',
     url: ''
   });
-
-  // search bar
-  const search = async () => {
-    return /*#__PURE__*/React.createElement("div", {
-      classname: "App"
-    }, /*#__PURE__*/React.createElement(_components_Searchbar__WEBPACK_IMPORTED_MODULE_3__["default"], null));
+  const handleSearch = searchTerm => {
+    if (searchInput.length > 0) {
+      bookmarks.filter(bookmark => {
+        return bookmark.title.match(searchInput);
+      });
+    }
+    console.log('Test me search params.');
   };
 
   //createBookmarks
@@ -159,6 +161,10 @@ function App() {
     className: _App_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].banner
   }, /*#__PURE__*/React.createElement("h1", null, "Bookmarks Application Laz Edition"), /*#__PURE__*/React.createElement("img", {
     src: "https://i.redd.it/46yihi74emdc1.jpeg"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "searchbar"
+  }, /*#__PURE__*/React.createElement(_components_Searchbar__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    onSearch: handleSearch
   })), /*#__PURE__*/React.createElement(_components_BookmarkList_BookmarkList__WEBPACK_IMPORTED_MODULE_1__["default"], {
     newBookmark: newBookmark,
     setNewBookmark: setNewBookmark,
@@ -196,7 +202,8 @@ function Bookmark(_ref) {
   return /*#__PURE__*/React.createElement("div", {
     className: _Bookmark_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].bookmark
   }, /*#__PURE__*/React.createElement("a", {
-    href: bookmark.url
+    href: bookmark.url,
+    class: "link"
   }, bookmark.title), /*#__PURE__*/React.createElement("button", {
     className: _Bookmark_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].button,
     onClick: () => buttonAction(bookmark._id)
@@ -204,7 +211,7 @@ function Bookmark(_ref) {
     className: _Bookmark_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].button,
     onClick: () => buttonAction(bookmark._id)
   }, buttonText), /*#__PURE__*/React.createElement("label", null, "Chosen Tags: "), /*#__PURE__*/React.createElement("div", {
-    className: bookmark.title
+    className: "bookmark__title"
   }));
 }
 {/* <div className={styles.bookmark}> {bookmark.title}
@@ -229,14 +236,16 @@ function Bookmark(_ref) {
 /* harmony export */ });
 /* harmony import */ var _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BookmarkList.module.scss */ "./src/components/BookmarkList/BookmarkList.module.scss");
 /* harmony import */ var _Bookmark_Bookmark__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Bookmark/Bookmark */ "./src/components/Bookmark/Bookmark.js");
-/* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.js");
-/* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(immutable__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Searchbar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Searchbar */ "./src/components/Searchbar.js");
+/* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.js");
+/* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(immutable__WEBPACK_IMPORTED_MODULE_3__);
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : String(i); }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
 
 
 
@@ -248,7 +257,7 @@ function BookmarkList(_ref) {
     bookmarks,
     deleteBookmark
   } = _ref;
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].BookmarkList
   }, /*#__PURE__*/React.createElement("label", null, "Bookmark Nick Name:"), /*#__PURE__*/React.createElement("input", {
     className: _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].input,
@@ -285,11 +294,11 @@ function BookmarkList(_ref) {
       // }
       e.key === 'Enter' && doesntExist && createBookmark();
     }
-  }), /*#__PURE__*/React.createElement("label", null, "Tags:"), /*#__PURE__*/React.createElement("select", {
+  }), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("label", null, "Tags:"), /*#__PURE__*/React.createElement("select", {
     className: _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].input,
     onChange: e => {
       setNewBookmark(_objectSpread(_objectSpread({}, newBookmark), {}, {
-        tag: e.target.value
+        tags: e.target.value
       }));
     }
   }, /*#__PURE__*/React.createElement("option", {
@@ -306,7 +315,7 @@ function BookmarkList(_ref) {
     name: bookmark.title,
     key: bookmark._id,
     bookmark: bookmark,
-    buttonAction: immutable__WEBPACK_IMPORTED_MODULE_2__.update // toggleBookmark.updateWindow
+    buttonAction: immutable__WEBPACK_IMPORTED_MODULE_3__.update // toggleBookmark.updateWindow
     ,
     buttonText: 'Update'
   }), /*#__PURE__*/React.createElement(_Bookmark_Bookmark__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -314,7 +323,7 @@ function BookmarkList(_ref) {
     bookmark: bookmark,
     buttonAction: deleteBookmark,
     buttonText: 'Delete'
-  }))));
+  })))));
 }
 
 /***/ }),
@@ -332,28 +341,36 @@ function BookmarkList(_ref) {
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 
-// how do I specify where the search result will display? Suddenly my whole app is crashed.
+// how do I specify where the search result will display?
+// WHY can't I place my searchbar anywhere?
 
-const searchBar = () => {
+const SearchBar = _ref => {
+  let {
+    onSearch
+  } = _ref;
   const [searchInput, setSearchInput] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
-  const bookmarks = [...bookmarks];
+
+  // const bookmarks = [...bookmarks]
+
   const handleChange = e => {
     e.preventDefault();
     setSearchInput(e.target.value);
   };
-  if (searchInput.length > 0) {
-    bookmarks.filter(bookmark => {
-      return bookmark.title.match(searchInput);
-    });
-  }
+  const handleSearch = () => {
+    onSearch(searchInput);
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
-    type: "search",
-    placeholder: "Search here",
+    type: "text",
+    placeholder: "Search...",
     onChange: handleChange,
     value: searchInput
-  }));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: handleSearch
+  }, "Search"));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (searchBar);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SearchBar);
+
+// I have no idea why but trying to move searchbar file into its own folder broke the whole thing
 
 /***/ }),
 
@@ -400,7 +417,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: white;
+  background-color: whitesmoke;
 }
 
 .KTmxx2sH00E53HXHCND1 {
@@ -413,12 +430,14 @@ ___CSS_LOADER_EXPORT___.push([module.id, `body {
 .KTmxx2sH00E53HXHCND1 img {
   width: 50%;
   max-height: 300px;
+  margin: 20px;
+  border: solid 5px black;
 }
 .KTmxx2sH00E53HXHCND1 h1 {
   width: 100%;
   text-align: center;
   color: rgba(23, 5, 58, 0.8);
-}`, "",{"version":3,"sources":["webpack://./src/App.module.scss"],"names":[],"mappings":"AAAA;EACI,SAAA;EACA,iBAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,uBAAA;AACJ;;AAEA;EACI,WAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,sBAAA;AACJ;AAAI;EACI,UAAA;EACA,iBAAA;AAER;AAAI;EACI,WAAA;EACA,kBAAA;EACA,2BAAA;AAER","sourcesContent":["body {\n    margin: 0;\n    min-height: 100vh;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    background-color: white;\n}\n\n.banner{\n    width: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex-direction: column;\n    img {\n        width: 50%;\n        max-height: 300px;\n    }\n    h1 {\n        width: 100%;\n        text-align: center;\n        color: rgba(23,5, 58, 0.8);\n    }\n}\n"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/App.module.scss"],"names":[],"mappings":"AAAA;EACI,SAAA;EACA,iBAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,4BAAA;AACJ;;AAEA;EACI,WAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,sBAAA;AACJ;AAAI;EACI,UAAA;EACA,iBAAA;EACA,YAAA;EACA,uBAAA;AAER;AAAI;EACI,WAAA;EACA,kBAAA;EACA,2BAAA;AAER","sourcesContent":["body {\n    margin: 0;\n    min-height: 100vh;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    background-color: whitesmoke;\n}\n\n.banner{\n    width: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex-direction: column;\n    img {\n        width: 50%;\n        max-height: 300px;\n        margin: 20px;\n        border: solid 5px black;\n    }\n    h1 {\n        width: 100%;\n        text-align: center;\n        color: rgba(23,5, 58, 0.8);\n    }\n\n}\n"],"sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"banner": `KTmxx2sH00E53HXHCND1`
@@ -447,12 +466,15 @@ ___CSS_LOADER_EXPORT___.locals = {
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, `.TKdPfLWuQZ3wBBMgYFyM {
-  /*! keep */
+  border: solid 5px black;
   font-size: 1.5rem;
-  color: rgba(23, 5, 58, 0.79);
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  /*?WHY isn't my link color updating*/
 }
 .TKdPfLWuQZ3wBBMgYFyM .JSmS6vn316ABbTaYqDzk {
-  background-color: rgba(25, 5, 58, 0.8);
+  background-color: rgba(26, 204, 44, 0.8);
   text-transform: uppercase;
   cursor: pointer;
   color: ghostwhite;
@@ -460,14 +482,19 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.TKdPfLWuQZ3wBBMgYFyM {
   font-size: 1rem;
   font-weight: 700;
   display: inline-block;
+  margin: 1rem;
   margin-left: 1rem;
-  border: 2px;
+  border: 2px solid black;
   box-shadow: 0 2px 5px rgba(23, 5, 58, 0.5);
-}`, "",{"version":3,"sources":["webpack://./src/components/Bookmark/Bookmark.module.scss"],"names":[],"mappings":"AAAA;EACI,UAAA;EACA,iBAAA;EACA,4BAAA;AACJ;AAAI;EACI,sCAAA;EACA,yBAAA;EACA,eAAA;EACA,iBAAA;EACA,qBAAA;EACA,eAAA;EACA,gBAAA;EACA,qBAAA;EACA,iBAAA;EACA,WAAA;EACA,0CAAA;AAER","sourcesContent":[".bookmark {\n    /*! keep */\n    font-size: 1.5rem;\n    color: rgba(23, 5, 58, 0.79);\n    .button {\n        background-color: rgba(25, 5, 58, 0.8);\n        text-transform: uppercase;\n        cursor: pointer;\n        color: ghostwhite;\n        padding: 0.25rem 1rem;\n        font-size: 1rem;\n        font-weight: 700;\n        display: inline-block;\n        margin-left: 1rem;\n        border: 2px;\n        box-shadow: 0 2px 5px rgba(23, 5, 58, 0.5);\n    }\n}\n"],"sourceRoot":""}]);
+}
+.TKdPfLWuQZ3wBBMgYFyM .z5eNq4d38KnAIKQ5NQGs {
+  color: whitesmoke;
+}`, "",{"version":3,"sources":["webpack://./src/components/Bookmark/Bookmark.module.scss"],"names":[],"mappings":"AAAA;EACI,uBAAA;EACA,iBAAA;EACA,mBAAA;EACA,uBAAA;EACA,WAAA;EAeA,oCAAA;AAbJ;AADI;EACI,wCAAA;EACA,yBAAA;EACA,eAAA;EACA,iBAAA;EACA,qBAAA;EACA,eAAA;EACA,gBAAA;EACA,qBAAA;EACA,YAAA;EACA,iBAAA;EACA,uBAAA;EACA,0CAAA;AAGR;AAAI;EACI,iBAAA;AAER","sourcesContent":[".bookmark {\n    border: solid 5px black;\n    font-size: 1.5rem;\n    align-items: center;\n    justify-content: center;\n    width: 100%;\n    .button {\n        background-color: rgba(26, 204, 44, 0.8);\n        text-transform: uppercase;\n        cursor: pointer;\n        color: ghostwhite;\n        padding: 0.25rem 1rem;\n        font-size: 1rem;\n        font-weight: 700;\n        display: inline-block;\n        margin: 1rem;\n        margin-left: 1rem;\n        border: 2px solid black;\n        box-shadow: 0 2px 5px rgba(23, 5, 58, 0.5);\n    }\n    /*?WHY isn't my link color updating*/\n    .link {\n        color: whitesmoke;\n    }\n\n}\n"],"sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"bookmark": `TKdPfLWuQZ3wBBMgYFyM`,
-	"button": `JSmS6vn316ABbTaYqDzk`
+	"button": `JSmS6vn316ABbTaYqDzk`,
+	"link": `z5eNq4d38KnAIKQ5NQGs`
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -501,12 +528,12 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.IaH4ae35X8t_aJfFYwAy {
   color: rgba(23, 5, 58, 0.8);
   border-radius: 9px;
   border: 1px solid rgba(23, 5, 58, 0.1);
-  padding: 2rem;
-  margin: 2rem;
+  padding: 20px;
+  margin: 20px;
   box-shadow: 2px 4px 8px rgba(23, 5, 58, 0.5);
 }
 .IaH4ae35X8t_aJfFYwAy .xqIdbaiF17DoAye5kkLw {
-  color: rgba(89, 15, 230, 0.8);
+  color: rgba(26, 23, 31, 0.8);
   display: inline-block;
   font-size: 2.5rem;
   height: 3.5rem;
@@ -516,7 +543,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.IaH4ae35X8t_aJfFYwAy {
   align-items: right;
   justify-content: right;
   text-align: right;
-}`, "",{"version":3,"sources":["webpack://./src/components/BookmarkList/BookmarkList.module.scss"],"names":[],"mappings":"AAAA;EACI,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,mBAAA;EACA,eAAA;EACA,2BAAA;EACA,kBAAA;EACA,sCAAA;EACA,aAAA;EACA,YAAA;EACA,4CAAA;AACJ;AAAI;EACI,6BAAA;EACA,qBAAA;EACA,iBAAA;EACA,cAAA;EACA,YAAA;EACA,SAAA;EACA,2BAAA;EACA,kBAAA;EACA,sBAAA;EACA,iBAAA;AAER","sourcesContent":[".bookmarkList {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    font-size: 2rem;\n    color: rgba(23,5, 58, 0.8);\n    border-radius: 9px;\n    border: 1px solid rgba(23,5, 58, 0.1);\n    padding: 2rem;\n    margin: 2rem;\n    box-shadow: 2px 4px 8px rgba(23,5, 58, 0.5);\n    .input {\n        color:rgba(89, 15, 230, 0.8);\n        display: inline-block;\n        font-size: 2.5rem;\n        height: 3.5rem;\n        margin: 3rem;\n        border: 0;\n        background-color:aliceblue;\n        align-items: right;\n        justify-content: right;\n        text-align: right;\n    }\n}\n"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/components/BookmarkList/BookmarkList.module.scss"],"names":[],"mappings":"AAAA;EACI,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,mBAAA;EACA,eAAA;EACA,2BAAA;EACA,kBAAA;EACA,sCAAA;EACA,aAAA;EACA,YAAA;EACA,4CAAA;AACJ;AAAI;EACI,4BAAA;EACA,qBAAA;EACA,iBAAA;EACA,cAAA;EACA,YAAA;EACA,SAAA;EACA,2BAAA;EACA,kBAAA;EACA,sBAAA;EACA,iBAAA;AAER","sourcesContent":[".bookmarkList {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    font-size: 2rem;\n    color: rgba(23,5, 58, 0.8);\n    border-radius: 9px;\n    border: 1px solid rgba(23,5, 58, 0.1);\n    padding: 20px;\n    margin: 20px;\n    box-shadow: 2px 4px 8px rgba(23,5, 58, 0.5);\n    .input {\n        color:rgba(26, 23, 31, 0.8);\n        display: inline-block;\n        font-size: 2.5rem;\n        height: 3.5rem;\n        margin: 3rem;\n        border: 0;\n        background-color:aliceblue;\n        align-items: right;\n        justify-content: right;\n        text-align: right;\n    }\n}\n"],"sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"bookmarkList": `IaH4ae35X8t_aJfFYwAy`,
@@ -857,4 +884,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.6f5b669615a1da6a35635b6b4abd7e03.js.map
+//# sourceMappingURL=App.f53a953a98049cbb808e47a281f44dc1.js.map

@@ -4,7 +4,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: white;
+    background-color: whitesmoke;
 }
 
 .banner{
@@ -16,10 +16,13 @@ body {
     img {
         width: 50%;
         max-height: 300px;
+        margin: 20px;
+        border: solid 5px black;
     }
     h1 {
         width: 100%;
         text-align: center;
         color: rgba(23,5, 58, 0.8);
     }
+
 }
