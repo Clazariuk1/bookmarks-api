@@ -15,6 +15,7 @@
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_BookmarkList_BookmarkList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/BookmarkList/BookmarkList */ "./src/components/BookmarkList/BookmarkList.js");
 /* harmony import */ var _App_module_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App.module.scss */ "./src/App.module.scss");
+/* harmony import */ var _components_Searchbar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Searchbar */ "./src/components/Searchbar.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -24,12 +25,43 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
 
 
+
+
+// BELOW : Algorithm to sort alphabetically. I'm using quick sort just to get on with my life.
+
+// FOR SOME REASON the quick sort algorithm below was breaking the web app; unsure why.
+
+function quickSort(array) {
+  if (array.length < 2) {
+    return array;
+  }
+  const pivot = array[array.length - 1];
+  const leftPart = [];
+  const rightPart = [];
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] < pivot) {
+      leftPart.push(array[i]);
+    } else if (array[i] > pivot) {
+      rightPart.push(array[i]);
+    }
+  }
+  const sortedLeft = quickSort(leftPart);
+  const sortedRight = quickSort(rightPart);
+  return sortedLeft.concat(pivot, sortedRight);
+}
 function App() {
   const [bookmarks, setBookmarks] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [newBookmark, setNewBookmark] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     title: '',
     url: ''
   });
+
+  // search bar
+  const search = async () => {
+    return /*#__PURE__*/React.createElement("div", {
+      classname: "App"
+    }, /*#__PURE__*/React.createElement(_components_Searchbar__WEBPACK_IMPORTED_MODULE_3__["default"], null));
+  };
 
   //createBookmarks
   const createBookmark = async () => {
@@ -53,30 +85,6 @@ function App() {
       console.error(error);
     }
   };
-
-  //updateBookmark
-  // const updateBookmark = async () => {
-  //     const body = {...newBookmark}
-  //     try {
-  //         const response = await put('/api/bookmarks', {
-  //             method: 'PUT',
-  //             headers: {
-  //                 'Content-Type': 'application/json'
-  //             },
-  //             body: JSON.stringify(body)
-  //         })
-  //         const updatedBookmark = await response.json()
-  //         setBookmark(updatedBookmark)
-  //         setNewBookmark({
-  //             title: '',
-  //             url: ''
-  //         })
-  //     } catch (error) {
-  //         console.log(error)
-  //     }
-  // }
-
-  // //moveToCompleted
   const updateBookmark = async id => {
     try {
       const index = bookmarks.findIndex(bookmark => bookmark._id === id);
@@ -116,6 +124,23 @@ function App() {
     }
   };
 
+  // trying to apply quicksort here is not working; commented out are edit attempts, original not commented below
+  /*
+  const getBookmarks = async () => {
+          try{
+              const response = await fetch('/api/bookmarks')
+              const foundBookmarks = await response.json()
+              setBookmarks(quickSort(foundBookmarks).reverse())
+              console.log('hey-yo!')
+          } catch(error){
+              console.error(error)
+          }
+      }
+      useEffect(() => {
+          getBookmarks()
+      }, [])
+  */
+
   //getBookmarks
   const getBookmarks = async () => {
     try {
@@ -128,7 +153,7 @@ function App() {
     }
   };
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    getBookmarks();
+    quickSort(getBookmarks());
   }, []);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: _App_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].banner
@@ -158,6 +183,10 @@ function App() {
 /* harmony import */ var _Bookmark_module_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Bookmark.module.scss */ "./src/components/Bookmark/Bookmark.module.scss");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
+// import './UpdateWindow.js'
+
+// Am I supposed to be playing with the state values? I'm getting stuck in the weeds.
+
 function Bookmark(_ref) {
   let {
     bookmark,
@@ -171,7 +200,12 @@ function Bookmark(_ref) {
   }, bookmark.title), /*#__PURE__*/React.createElement("button", {
     className: _Bookmark_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].button,
     onClick: () => buttonAction(bookmark._id)
-  }, buttonText));
+  }, buttonText), /*#__PURE__*/React.createElement("button", {
+    className: _Bookmark_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].button,
+    onClick: () => buttonAction(bookmark._id)
+  }, buttonText), /*#__PURE__*/React.createElement("label", null, "Chosen Tags: "), /*#__PURE__*/React.createElement("div", {
+    className: bookmark.title
+  }));
 }
 {/* <div className={styles.bookmark}> {bookmark.title}
             <button
@@ -216,7 +250,7 @@ function BookmarkList(_ref) {
   } = _ref;
   return /*#__PURE__*/React.createElement("div", {
     className: _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].BookmarkList
-  }, "Bookmark Nick Name:", /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React.createElement("label", null, "Bookmark Nick Name:"), /*#__PURE__*/React.createElement("input", {
     className: _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].input,
     type: "text",
     value: newBookmark.title,
@@ -228,31 +262,98 @@ function BookmarkList(_ref) {
     onKeyDown: e => {
       e.key === 'Enter' && createBookmark();
     }
-  }), /*#__PURE__*/React.createElement("br", null), "Url Address:", /*#__PURE__*/React.createElement("input", {
+  }), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("label", null, "Url Address:"), /*#__PURE__*/React.createElement("input", {
     className: _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].input,
     type: "text",
     value: newBookmark.url,
     onChange: e => {
       setNewBookmark(_objectSpread(_objectSpread({}, newBookmark), {}, {
-        title: e.target.value
+        url: e.target.value
       }));
     },
     onKeyDown: e => {
-      e.key === 'Enter' && createBookmark();
+      // my doesnt exist stuff isn't working right now. What am I missing
+      const doesntExist = bookmarks.forEach(bookmark => bookmark.title !== e.target.value);
+
+      // if (e.key === 'Enter' && doesntExist) {
+      //     setNewBookmark({ ...newBookmark,
+      //         url: e.target.value })
+      //     createBookmark()
+      // }
+      // else {
+      //     alert('error, bookmark already exists')
+      // }
+      e.key === 'Enter' && doesntExist && createBookmark();
     }
-  }), /*#__PURE__*/React.createElement("h3", null, "Bookmarks"), bookmarks.map(bookmark => /*#__PURE__*/React.createElement(_Bookmark_Bookmark__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }), /*#__PURE__*/React.createElement("label", null, "Tags:"), /*#__PURE__*/React.createElement("select", {
+    className: _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].input,
+    onChange: e => {
+      setNewBookmark(_objectSpread(_objectSpread({}, newBookmark), {}, {
+        tag: e.target.value
+      }));
+    }
+  }, /*#__PURE__*/React.createElement("option", {
+    value: "Favorite"
+  }, "Favorite"), /*#__PURE__*/React.createElement("option", {
+    value: "Work"
+  }, "Work"), /*#__PURE__*/React.createElement("option", {
+    value: "Cooking"
+  }, "Cooking"), /*#__PURE__*/React.createElement("option", {
+    value: "Movies"
+  }, "Movies")), /*#__PURE__*/React.createElement("h3", null, "Bookmarks"), bookmarks.map(bookmark => /*#__PURE__*/React.createElement("div", {
+    className: _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].bookmarkButtonSection
+  }, /*#__PURE__*/React.createElement(_Bookmark_Bookmark__WEBPACK_IMPORTED_MODULE_1__["default"], {
     name: bookmark.title,
     key: bookmark._id,
     bookmark: bookmark,
-    buttonAction: immutable__WEBPACK_IMPORTED_MODULE_2__.update,
+    buttonAction: immutable__WEBPACK_IMPORTED_MODULE_2__.update // toggleBookmark.updateWindow
+    ,
     buttonText: 'Update'
-  })), bookmarks.map(bookmark => /*#__PURE__*/React.createElement(_Bookmark_Bookmark__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }), /*#__PURE__*/React.createElement(_Bookmark_Bookmark__WEBPACK_IMPORTED_MODULE_1__["default"], {
     key: bookmark._id,
     bookmark: bookmark,
     buttonAction: deleteBookmark,
     buttonText: 'Delete'
-  })));
+  }))));
 }
+
+/***/ }),
+
+/***/ "./src/components/Searchbar.js":
+/*!*************************************!*\
+  !*** ./src/components/Searchbar.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+// how do I specify where the search result will display? Suddenly my whole app is crashed.
+
+const searchBar = () => {
+  const [searchInput, setSearchInput] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const bookmarks = [...bookmarks];
+  const handleChange = e => {
+    e.preventDefault();
+    setSearchInput(e.target.value);
+  };
+  if (searchInput.length > 0) {
+    bookmarks.filter(bookmark => {
+      return bookmark.title.match(searchInput);
+    });
+  }
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    type: "search",
+    placeholder: "Search here",
+    onChange: handleChange,
+    value: searchInput
+  }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (searchBar);
 
 /***/ }),
 
@@ -756,4 +857,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.982fbe60937a3137389516904d4d8090.js.map
+//# sourceMappingURL=App.6f5b669615a1da6a35635b6b4abd7e03.js.map
