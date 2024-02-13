@@ -12,7 +12,7 @@ const SearchBar = ({onSearch}) => {
         e.preventDefault()
         setSearchInput(e.target.value)
     }
-    const handleSearch = () => {
+    const handleSearch = (searchInput) => {
         onSearch(searchInput)
     }
 

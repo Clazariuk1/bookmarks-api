@@ -56,10 +56,14 @@ function App() {
     title: '',
     url: ''
   });
-  const handleSearch = searchTerm => {
+  const handleSearch = searchInput => {
     if (searchInput.length > 0) {
       bookmarks.filter(bookmark => {
-        return bookmark.title.match(searchInput);
+        if (bookmark.title.toUpperCase() === searchInput.toUpperCase()) {
+          return alert('got it');
+        } else {
+          alert('nada.');
+        }
       });
     }
     console.log('Test me search params.');
@@ -197,31 +201,26 @@ function Bookmark(_ref) {
   let {
     bookmark,
     buttonAction,
+    inputAction,
     buttonText
   } = _ref;
   return /*#__PURE__*/React.createElement("div", {
     className: _Bookmark_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].bookmark
   }, /*#__PURE__*/React.createElement("a", {
     href: bookmark.url,
-    class: "link"
+    className: "link"
   }, bookmark.title), /*#__PURE__*/React.createElement("button", {
     className: _Bookmark_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].button,
     onClick: () => buttonAction(bookmark._id)
-  }, buttonText), /*#__PURE__*/React.createElement("button", {
+  }, buttonText), /*#__PURE__*/React.createElement("input", {
+    type: "submit",
     className: _Bookmark_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].button,
-    onClick: () => buttonAction(bookmark._id)
-  }, buttonText), /*#__PURE__*/React.createElement("label", null, "Chosen Tags: "), /*#__PURE__*/React.createElement("div", {
+    value: "Delete ".concat(bookmark.title),
+    onClick: () => inputAction(bookmark._id)
+  }), /*#__PURE__*/React.createElement("label", null, "Chosen Tags: "), /*#__PURE__*/React.createElement("div", {
     className: "bookmark__title"
   }));
 }
-{/* <div className={styles.bookmark}> {bookmark.title}
-            <button
-                className={styles.button}
-                onClick={() => buttonAction(bookmark._id)}
-            >
-                {buttonText}
-            </button>
-        </div> */}
 
 /***/ }),
 
@@ -292,7 +291,7 @@ function BookmarkList(_ref) {
       // else {
       //     alert('error, bookmark already exists')
       // }
-      e.key === 'Enter' && doesntExist && createBookmark();
+      e.key === 'Enter' && createBookmark();
     }
   }), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("label", null, "Tags:"), /*#__PURE__*/React.createElement("select", {
     className: _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].input,
@@ -302,6 +301,8 @@ function BookmarkList(_ref) {
       }));
     }
   }, /*#__PURE__*/React.createElement("option", {
+    value: ""
+  }, "Tag?"), /*#__PURE__*/React.createElement("option", {
     value: "Favorite"
   }, "Favorite"), /*#__PURE__*/React.createElement("option", {
     value: "Work"
@@ -315,14 +316,10 @@ function BookmarkList(_ref) {
     name: bookmark.title,
     key: bookmark._id,
     bookmark: bookmark,
-    buttonAction: immutable__WEBPACK_IMPORTED_MODULE_3__.update // toggleBookmark.updateWindow
-    ,
-    buttonText: 'Update'
-  }), /*#__PURE__*/React.createElement(_Bookmark_Bookmark__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    key: bookmark._id,
-    bookmark: bookmark,
-    buttonAction: deleteBookmark,
-    buttonText: 'Delete'
+    buttonAction: immutable__WEBPACK_IMPORTED_MODULE_3__.update,
+    buttonText: 'Update',
+    inputAction: deleteBookmark,
+    inputText: "Delete ".concat(bookmark.title)
   })))));
 }
 
@@ -356,7 +353,7 @@ const SearchBar = _ref => {
     e.preventDefault();
     setSearchInput(e.target.value);
   };
-  const handleSearch = () => {
+  const handleSearch = searchInput => {
     onSearch(searchInput);
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
@@ -437,7 +434,8 @@ ___CSS_LOADER_EXPORT___.push([module.id, `body {
   width: 100%;
   text-align: center;
   color: rgba(23, 5, 58, 0.8);
-}`, "",{"version":3,"sources":["webpack://./src/App.module.scss"],"names":[],"mappings":"AAAA;EACI,SAAA;EACA,iBAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,4BAAA;AACJ;;AAEA;EACI,WAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,sBAAA;AACJ;AAAI;EACI,UAAA;EACA,iBAAA;EACA,YAAA;EACA,uBAAA;AAER;AAAI;EACI,WAAA;EACA,kBAAA;EACA,2BAAA;AAER","sourcesContent":["body {\n    margin: 0;\n    min-height: 100vh;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    background-color: whitesmoke;\n}\n\n.banner{\n    width: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex-direction: column;\n    img {\n        width: 50%;\n        max-height: 300px;\n        margin: 20px;\n        border: solid 5px black;\n    }\n    h1 {\n        width: 100%;\n        text-align: center;\n        color: rgba(23,5, 58, 0.8);\n    }\n\n}\n"],"sourceRoot":""}]);
+  background-color: crimson;
+}`, "",{"version":3,"sources":["webpack://./src/App.module.scss"],"names":[],"mappings":"AAAA;EACI,SAAA;EACA,iBAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,4BAAA;AACJ;;AAEA;EACI,WAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,sBAAA;AACJ;AAAI;EACI,UAAA;EACA,iBAAA;EACA,YAAA;EACA,uBAAA;AAER;AAAI;EACI,WAAA;EACA,kBAAA;EACA,2BAAA;EACA,yBAAA;AAER","sourcesContent":["body {\n    margin: 0;\n    min-height: 100vh;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    background-color: whitesmoke;\n}\n\n.banner{\n    width: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex-direction: column;\n    img {\n        width: 50%;\n        max-height: 300px;\n        margin: 20px;\n        border: solid 5px black;\n    }\n    h1 {\n        width: 100%;\n        text-align: center;\n        color: rgba(23,5, 58, 0.8);\n        background-color: crimson;\n    }\n\n}\n"],"sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"banner": `KTmxx2sH00E53HXHCND1`
@@ -884,4 +882,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.f53a953a98049cbb808e47a281f44dc1.js.map
+//# sourceMappingURL=App.21ca3b52776d07cdeee682cef7054ea7.js.map

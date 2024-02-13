@@ -35,10 +35,15 @@ export default function App(){
         url: ''
     })
 
-    const handleSearch = (searchTerm) => {
+    const handleSearch = (searchInput) => {
         if (searchInput.length > 0) {
             bookmarks.filter((bookmark) => {
-                return bookmark.title.match(searchInput)
+                if (bookmark.title.toUpperCase() === searchInput.toUpperCase()) {
+                    return alert('got it')
+                }
+                else {
+                    alert('nada.')
+                }
             })
         }
         console.log('Test me search params.')
