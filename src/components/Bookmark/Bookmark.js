@@ -17,7 +17,7 @@ export default function Bookmark({ bookmark, buttonAction, inputAction, buttonTe
             <input type="submit" className={styles.button} value={`Delete ${bookmark.title}`}
             onClick={() => inputAction(bookmark._id)}
             />
-            <label>Chosen Tags: </label>
+            <label>Chosen Tags: {`${[bookmark.tags[0]]}`}</label>
             <div className="bookmark__title">
             </div>
         </div>

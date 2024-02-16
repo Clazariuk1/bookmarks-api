@@ -1,5 +1,6 @@
-const { model, Schema } = require('mongoose')
+require('dotenv').config()
 
+const { model, Schema } = require('mongoose')
 
 const bookmarkSchema = new Schema ({
     title: { required: true, type: String },
@@ -10,6 +11,4 @@ const bookmarkSchema = new Schema ({
     timestamps: true
 })
 
-const Bookmark = model('Bookmark', bookmarkSchema)
-
-module.exports = Bookmark
+module.exports = model('Bookmark', bookmarkSchema)

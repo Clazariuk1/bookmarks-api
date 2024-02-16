@@ -15,6 +15,7 @@ app.use(favicon(path.join(__dirname, 'public', 'img','logo.png')))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/api/bookmarks', require('./routes/api/bookmarks'))
 // http://localhost:8000/api/bookmarks
+app.use('/api/users', require('./routes/api/users'))
 app.get('*', (req, res) => {
 	res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })

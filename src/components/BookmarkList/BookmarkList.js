@@ -1,6 +1,5 @@
 import styles from './BookmarkList.module.scss'
 import Bookmark from '../Bookmark/Bookmark'
-import SearchBar from '../Searchbar'
 import { update } from 'immutable'
 
 export default function BookmarkList({
@@ -8,11 +7,11 @@ export default function BookmarkList({
     createBookmark,
     setNewBookmark,
     bookmarks,
-    deleteBookmark
+    deleteBookmark,
+    updateBookmark
 }) {
     return (
         <>
-            {/*<SearchBar>rtyrt</SearchBar> */}
             <div className={styles.BookmarkList}>
                 <label>Bookmark Nick Name:</label>
                 <input
@@ -36,17 +35,16 @@ export default function BookmarkList({
                         setNewBookmark({ ...newBookmark, url: e.target.value })
                     }}
                     onKeyDown={(e) => {
-                        // my doesnt exist stuff isn't working right now. What am I missing
                         const doesntExist = bookmarks.forEach((bookmark) => bookmark.title !== e.target.value)
 
-                        // if (e.key === 'Enter' && doesntExist) {
-                        //     setNewBookmark({ ...newBookmark,
-                        //         url: e.target.value })
-                        //     createBookmark()
-                        // }
-                        // else {
-                        //     alert('error, bookmark already exists')
-                        // }
+                       {/* if (e.key === 'Enter' && doesntExist) {
+                            setNewBookmark({ ...newBookmark,
+                                url: e.target.value })
+                            createBookmark()
+                        }
+                        else {
+                            alert('error, bookmark already exists')
+                        } */}
                         e.key === 'Enter' && createBookmark()
 
                     }

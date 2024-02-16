@@ -7,6 +7,8 @@
   "description": "A way for people to start a react project and not be locked into create react app",
   "main": "server.js",
   "scripts": {
+    "server": "nodemon server.js",
+    "client": "react-scripts-start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "gulp build && gulp styles",
     "dev:webpack": "webpack --mode development --define-process-env-node-env dev",
@@ -15,6 +17,7 @@
     "styles": "gulp styles",
     "start": "node server.js"
   },
+  "proxy": "http://localhost:8000",
   "author": "",
   "license": "ISC",
   "devDependencies": {

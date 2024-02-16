@@ -217,7 +217,7 @@ function Bookmark(_ref) {
     className: _Bookmark_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].button,
     value: "Delete ".concat(bookmark.title),
     onClick: () => inputAction(bookmark._id)
-  }), /*#__PURE__*/React.createElement("label", null, "Chosen Tags: "), /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("label", null, "Chosen Tags: ", "".concat([bookmark.tags[0]])), /*#__PURE__*/React.createElement("div", {
     className: "bookmark__title"
   }));
 }
@@ -235,9 +235,8 @@ function Bookmark(_ref) {
 /* harmony export */ });
 /* harmony import */ var _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BookmarkList.module.scss */ "./src/components/BookmarkList/BookmarkList.module.scss");
 /* harmony import */ var _Bookmark_Bookmark__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Bookmark/Bookmark */ "./src/components/Bookmark/Bookmark.js");
-/* harmony import */ var _Searchbar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Searchbar */ "./src/components/Searchbar.js");
-/* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.js");
-/* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(immutable__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.js");
+/* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(immutable__WEBPACK_IMPORTED_MODULE_2__);
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -247,14 +246,14 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
 
 
-
 function BookmarkList(_ref) {
   let {
     newBookmark,
     createBookmark,
     setNewBookmark,
     bookmarks,
-    deleteBookmark
+    deleteBookmark,
+    updateBookmark
   } = _ref;
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__["default"].BookmarkList
@@ -280,17 +279,15 @@ function BookmarkList(_ref) {
       }));
     },
     onKeyDown: e => {
-      // my doesnt exist stuff isn't working right now. What am I missing
       const doesntExist = bookmarks.forEach(bookmark => bookmark.title !== e.target.value);
-
-      // if (e.key === 'Enter' && doesntExist) {
-      //     setNewBookmark({ ...newBookmark,
-      //         url: e.target.value })
-      //     createBookmark()
-      // }
-      // else {
-      //     alert('error, bookmark already exists')
-      // }
+      {/* if (e.key === 'Enter' && doesntExist) {
+           setNewBookmark({ ...newBookmark,
+               url: e.target.value })
+           createBookmark()
+       }
+       else {
+           alert('error, bookmark already exists')
+       } */}
       e.key === 'Enter' && createBookmark();
     }
   }), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("label", null, "Tags:"), /*#__PURE__*/React.createElement("select", {
@@ -316,7 +313,7 @@ function BookmarkList(_ref) {
     name: bookmark.title,
     key: bookmark._id,
     bookmark: bookmark,
-    buttonAction: immutable__WEBPACK_IMPORTED_MODULE_3__.update,
+    buttonAction: immutable__WEBPACK_IMPORTED_MODULE_2__.update,
     buttonText: 'Update',
     inputAction: deleteBookmark,
     inputText: "Delete ".concat(bookmark.title)
@@ -469,7 +466,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.TKdPfLWuQZ3wBBMgYFyM {
   align-items: center;
   justify-content: center;
   width: 100%;
-  /*?WHY isn't my link color updating*/
 }
 .TKdPfLWuQZ3wBBMgYFyM .JSmS6vn316ABbTaYqDzk {
   background-color: rgba(26, 204, 44, 0.8);
@@ -486,8 +482,9 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.TKdPfLWuQZ3wBBMgYFyM {
   box-shadow: 0 2px 5px rgba(23, 5, 58, 0.5);
 }
 .TKdPfLWuQZ3wBBMgYFyM .z5eNq4d38KnAIKQ5NQGs {
-  color: whitesmoke;
-}`, "",{"version":3,"sources":["webpack://./src/components/Bookmark/Bookmark.module.scss"],"names":[],"mappings":"AAAA;EACI,uBAAA;EACA,iBAAA;EACA,mBAAA;EACA,uBAAA;EACA,WAAA;EAeA,oCAAA;AAbJ;AADI;EACI,wCAAA;EACA,yBAAA;EACA,eAAA;EACA,iBAAA;EACA,qBAAA;EACA,eAAA;EACA,gBAAA;EACA,qBAAA;EACA,YAAA;EACA,iBAAA;EACA,uBAAA;EACA,0CAAA;AAGR;AAAI;EACI,iBAAA;AAER","sourcesContent":[".bookmark {\n    border: solid 5px black;\n    font-size: 1.5rem;\n    align-items: center;\n    justify-content: center;\n    width: 100%;\n    .button {\n        background-color: rgba(26, 204, 44, 0.8);\n        text-transform: uppercase;\n        cursor: pointer;\n        color: ghostwhite;\n        padding: 0.25rem 1rem;\n        font-size: 1rem;\n        font-weight: 700;\n        display: inline-block;\n        margin: 1rem;\n        margin-left: 1rem;\n        border: 2px solid black;\n        box-shadow: 0 2px 5px rgba(23, 5, 58, 0.5);\n    }\n    /*?WHY isn't my link color updating*/\n    .link {\n        color: whitesmoke;\n    }\n\n}\n"],"sourceRoot":""}]);
+  color: black;
+  padding: 1rem;
+}`, "",{"version":3,"sources":["webpack://./src/components/Bookmark/Bookmark.module.scss"],"names":[],"mappings":"AAAA;EACI,uBAAA;EACA,iBAAA;EACA,mBAAA;EACA,uBAAA;EACA,WAAA;AACJ;AAAI;EACI,wCAAA;EACA,yBAAA;EACA,eAAA;EACA,iBAAA;EACA,qBAAA;EACA,eAAA;EACA,gBAAA;EACA,qBAAA;EACA,YAAA;EACA,iBAAA;EACA,uBAAA;EACA,0CAAA;AAER;AAAI;EACI,YAAA;EACA,aAAA;AAER","sourcesContent":[".bookmark {\n    border: solid 5px black;\n    font-size: 1.5rem;\n    align-items: center;\n    justify-content: center;\n    width: 100%;\n    .button {\n        background-color: rgba(26, 204, 44, 0.8);\n        text-transform: uppercase;\n        cursor: pointer;\n        color: ghostwhite;\n        padding: 0.25rem 1rem;\n        font-size: 1rem;\n        font-weight: 700;\n        display: inline-block;\n        margin: 1rem;\n        margin-left: 1rem;\n        border: 2px solid black;\n        box-shadow: 0 2px 5px rgba(23, 5, 58, 0.5);\n    }\n    .link {\n        color: black;\n        padding: 1rem;\n    }\n\n}\n"],"sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"bookmark": `TKdPfLWuQZ3wBBMgYFyM`,
@@ -882,4 +879,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.21ca3b52776d07cdeee682cef7054ea7.js.map
+//# sourceMappingURL=App.7d122233668466fc49baa9a253b907a6.js.map
