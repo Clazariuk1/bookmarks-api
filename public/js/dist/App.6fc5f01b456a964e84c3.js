@@ -56,6 +56,32 @@ function App() {
     title: '',
     url: ''
   });
+
+  /* User login, sign up , create bookmark, list bookmarksby user, deletebookmark, updatebookmark */
+
+  const [credentials, setCredentials] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    email: '',
+    password: '',
+    name: ''
+  });
+  const login = async () => {
+    try {
+      const response = await fetch('/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: credentials.email,
+          password: credentials.password
+        })
+      });
+      const token = await response.json();
+      localStorage.setItem('token', JSON.stringify(token));
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleSearch = searchInput => {
     if (searchInput.length > 0) {
       bookmarks.filter(bookmark => {
@@ -153,7 +179,6 @@ function App() {
       const response = await fetch('/api/bookmarks');
       const foundBookmarks = await response.json();
       setBookmarks(foundBookmarks.reverse());
-      console.log('hey-yo!');
     } catch (error) {
       console.error(error);
     }
@@ -879,4 +904,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.7d122233668466fc49baa9a253b907a6.js.map
+//# sourceMappingURL=App.d9a8f20c823bc7ede8d09a9cadd00550.js.map

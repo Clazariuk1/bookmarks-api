@@ -35,6 +35,30 @@ export default function App(){
         url: ''
     })
 
+    /* User login, sign up , create bookmark, list bookmarksby user, deletebookmark, updatebookmark */
+
+    const [credentials, setCredentials] = useState({
+        email: '',
+        password: '',
+        name: ''
+    })
+
+    const login = async () => {
+        try {
+            const response = await fetch('/api/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: credentials.email, password: credentials.password })
+            })
+            const token = await response.json()
+            localStorage.setItem('token', JSON.stringify(token))
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const handleSearch = (searchInput) => {
         if (searchInput.length > 0) {
             bookmarks.filter((bookmark) => {
@@ -134,7 +158,6 @@ const getBookmarks = async () => {
             const response = await fetch('/api/bookmarks')
             const foundBookmarks = await response.json()
             setBookmarks(foundBookmarks.reverse())
-            console.log('hey-yo!')
         } catch(error){
             console.error(error)
         }
