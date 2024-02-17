@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
-// how do I specify where the search result will display?
-// WHY can't I place my searchbar anywhere?
+// how do I specify where the search result will display? Need functioning search bar at top of bookmarks index only.
 
 const SearchBar = ({onSearch}) => {
     const [searchInput, setSearchInput] = useState('')
@@ -26,5 +25,3 @@ const SearchBar = ({onSearch}) => {
 }
 
 export default SearchBar
-
-// I have no idea why but trying to move searchbar file into its own folder broke the whole thing

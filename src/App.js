@@ -31,7 +31,6 @@ import CreateBookmark from './components/CreateBookmark/CreateBookmark'
 
 export default function App() {
     const [searchResults, setSearchResults] = useState([])
-    /* User login, sign up , create bookmark, list bookmarksby user, deletebookmark, updatebookmark */
 
     const handleChangeAuth = (event) => {
         setCredentials({ ...credentials, [event.target.name]: event.target.value })
@@ -265,22 +264,6 @@ export default function App() {
                 bookmarks={bookmarks}
                 deleteBookmark={deleteBookmark}
                 updateBookmark={updateBookmark}
-            />
-
-            <div className={styles.banner}>
-                <h1>Bookmarks Application Laz Edition</h1>
-                <img src='https://i.redd.it/46yihi74emdc1.jpeg' />
-            </div>
-            <div className="searchbar">
-                <SearchBar onSearch={handleSearch} />
-            </div>
-            <BookmarkList
-                bookmark={bookmark}
-                setBookmark={setBookmark}
-                createBookmark={createBookmark}
-                updateBookmark={updateBookmark}
-                bookmarks={bookmarks}
-                deleteBookmark={deleteBookmark}
             />
         </>
     )

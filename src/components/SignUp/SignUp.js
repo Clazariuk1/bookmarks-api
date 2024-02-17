@@ -1,4 +1,4 @@
-
+import styles from './SignUp.module.scss'
 
 export default function SignUp({
     credentials,
@@ -8,7 +8,9 @@ export default function SignUp({
     return (
         <>
             <h2>SignUp</h2>
-            <form onSubmit={(e) => {
+            <form
+            className="sign__up__form"
+            onSubmit={(e) => {
                 e.preventDefault()
                 signUp()
             }}>

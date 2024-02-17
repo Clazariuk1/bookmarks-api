@@ -57,8 +57,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
 function App() {
   const [searchResults, setSearchResults] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  /* User login, sign up , create bookmark, list bookmarksby user, deletebookmark, updatebookmark */
-
   const handleChangeAuth = event => {
     setCredentials(_objectSpread(_objectSpread({}, credentials), {}, {
       [event.target.name]: event.target.value
@@ -271,21 +269,6 @@ function App() {
     bookmarks: bookmarks,
     deleteBookmark: deleteBookmark,
     updateBookmark: updateBookmark
-  }), /*#__PURE__*/React.createElement("div", {
-    className: _App_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].banner
-  }, /*#__PURE__*/React.createElement("h1", null, "Bookmarks Application Laz Edition"), /*#__PURE__*/React.createElement("img", {
-    src: "https://i.redd.it/46yihi74emdc1.jpeg"
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "searchbar"
-  }, /*#__PURE__*/React.createElement(_components_Searchbar__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    onSearch: handleSearch
-  })), /*#__PURE__*/React.createElement(_components_BookmarkList_BookmarkList__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    bookmark: bookmark,
-    setBookmark: setBookmark,
-    createBookmark: createBookmark,
-    updateBookmark: updateBookmark,
-    bookmarks: bookmarks,
-    deleteBookmark: deleteBookmark
   }));
 }
 
@@ -407,69 +390,6 @@ function Bookmark(_ref) {
   }, "Delete Me")));
 }
 
-// import { useRef, useState } from 'react'
-// import styles from './Bookmark.module.scss'
-// // import './UpdateWindow.js'
-
-// // Am I supposed to be playing with the state values? I'm getting stuck in the weeds.
-
-// export default function Bookmark({
-//     bookmark,
-//     updateBookmark,
-//     deleteBookmark
-//     // buttonAction,
-//     // inputAction,
-//     // buttonText
-// }) {
-//     const [showInput, setShowInput] = useState(false)
-//     const inputRef = useRef(null)
-
-//     return (
-//         <>
-//             <li>
-//                 <h4 onClick={() => setShowInput(!showInput)}>{bookmark.title}</h4>
-//                 <input
-//                     ref={inputRef}
-//                     style={{ display: showInput ? 'block' : 'none' }}
-//                     type='text'
-//                     onKeyDown={(e) => {
-//                         if (e.key === 'Enter') {
-//                             const title = inputRef.current.value
-//                             updateBookmark(bookmark._id, { title })
-//                             setShowInput(false)
-//                         }
-//                     }}
-//                     defaultValue={bookmark.title}
-//                 />
-//                 <a href={bookmark.url} target='_blank' rel='noreferrer'> {bookmark.url}</a>
-//                 <button
-//                     onClick={() => deleteBookmark(bookmark._id)}
-//                 >
-//                     Delete Me
-//                 </button>
-//             </li>
-//         </>
-//     )
-// }
-// //     return (
-// //         <div className={styles.bookmark}>
-// //             <a href={bookmark.url} className="link">{bookmark.title}</a>
-// //             <button
-// //                 className={styles.button}
-// //                 onClick={() => buttonAction(bookmark._id)}
-// //             >
-// //                 {buttonText}
-// //             </button>
-// //             <input type="submit" className={styles.button} value={`Delete ${bookmark.title}`}
-// //             onClick={() => inputAction(bookmark._id)}
-// //             />
-// //             <label>Chosen Tags: {`${[bookmark.tags[0]]}`}</label>
-// //             <div className="bookmark__title">
-// //             </div>
-// //         </div>
-// //     )
-// // }
-
 /***/ }),
 
 /***/ "./src/components/BookmarkList/BookmarkList.js":
@@ -483,10 +403,11 @@ function Bookmark(_ref) {
 /* harmony export */ });
 /* harmony import */ var _BookmarkList_module_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BookmarkList.module.scss */ "./src/components/BookmarkList/BookmarkList.module.scss");
 /* harmony import */ var _Bookmark_Bookmark__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Bookmark/Bookmark */ "./src/components/Bookmark/Bookmark.js");
+/* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.js");
+/* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(immutable__WEBPACK_IMPORTED_MODULE_2__);
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 
-// import { update } from 'immutable'
 
 function BookmarkList(_ref) {
   let {
@@ -494,12 +415,6 @@ function BookmarkList(_ref) {
     deleteBookmark,
     updateBookmark
   } = _ref;
-  // TEST BOOKMARKS BELOW DELETE THEM!!
-  // const testBookmarks = [
-  //     {title: "facebook", url: "http://facebook.com"},
-  //     {title: "youtube", url: "http://youtube.com"},
-  //     {title: "google", url: "http://google.com"}
-  // ]
   return /*#__PURE__*/React.createElement("ul", null, bookmarks.length ? bookmarks.map(bookmark => /*#__PURE__*/React.createElement(_Bookmark_Bookmark__WEBPACK_IMPORTED_MODULE_1__["default"], {
     key: bookmark._id,
     bookmark: bookmark,
@@ -507,81 +422,6 @@ function BookmarkList(_ref) {
     deleteBookmark: deleteBookmark
   })) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h2", null, "No Bookmarks Yet... Add one in the Form Above")));
 }
-
-//     return (
-//         <ul>
-//             <div className={styles.BookmarkList}>
-//                 <label>Bookmark Nick Name:</label>
-//                 <input
-//                     className={styles.input}
-//                     type="text"
-//                     value={bookmark.title}
-//                     onChange={(e) => {
-//                         setNewBookmark({ ...bookmark, title: e.target.value })
-//                     }}
-//                     onKeyDown={(e) => {
-//                         e.key === 'Enter' && createBookmark()
-//                     }}
-//                 />
-//                 <br></br>
-//                 <label>Url Address:</label>
-//                 <input
-//                     className={styles.input}
-//                     type="text"
-//                     value={bookmark.url}
-//                     onChange={(e) => {
-//                         setNewBookmark({ ...bookmark, url: e.target.value })
-//                     }}
-//                     onKeyDown={(e) => {
-//                         const doesntExist = bookmarks.forEach((bookmark) => bookmark.title !== e.target.value)
-
-//                        {/* if (e.key === 'Enter' && doesntExist) {
-//                             setNewBookmark({ ...newBookmark,
-//                                 url: e.target.value })
-//                             createBookmark()
-//                         }
-//                         else {
-//                             alert('error, bookmark already exists')
-//                         } */}
-//                         e.key === 'Enter' && createBookmark()
-
-//                     }
-//                     }
-//                 />
-//                 <br></br>
-//                 <label>Tags:</label>
-//                 <select className={styles.input}
-//                     onChange={(e) => {
-//                         setNewBookmark({ ...newBookmark, tags: e.target.value })
-//                     }}
-//                 >
-//                     <option value="">Tag?</option>
-//                     <option value="Favorite">Favorite</option>
-//                     <option value="Work">Work</option>
-//                     <option value="Cooking">Cooking</option>
-//                     <option value="Movies">Movies</option>
-//                 </select>
-//                 <h3>Bookmarks</h3>
-
-//                 {
-//                     bookmarks.map(bookmark => (
-//                         <div className={styles.bookmarkButtonSection}>
-//                             <Bookmark
-//                                 name={bookmark.title}
-//                                 key={bookmark._id}
-//                                 bookmark={bookmark}
-//                                 buttonAction={update}
-//                                 buttonText={'Update'}
-//                                 inputAction={deleteBookmark}
-//                                 inputText={`Delete ${bookmark.title}`}
-//                             />
-
-//                         </div>
-//                     ))}
-//             </div>
-//         </>
-//     )
-// }
 
 /***/ }),
 
@@ -679,17 +519,13 @@ function Login(_ref) {
 /*!*************************************!*\
   !*** ./src/components/Searchbar.js ***!
   \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 
-// how do I specify where the search result will display?
-// WHY can't I place my searchbar anywhere?
+// how do I specify where the search result will display? Need functioning search bar at top of bookmarks index only.
 
 const SearchBar = _ref => {
   let {
@@ -715,9 +551,7 @@ const SearchBar = _ref => {
     onClick: handleSearch
   }, "Search"));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SearchBar);
-
-// I have no idea why but trying to move searchbar file into its own folder broke the whole thing
+/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (SearchBar);
 
 /***/ }),
 
@@ -730,7 +564,9 @@ const SearchBar = _ref => {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ SignUp)
 /* harmony export */ });
+/* harmony import */ var _SignUp_module_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SignUp.module.scss */ "./src/components/SignUp/SignUp.module.scss");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
 function SignUp(_ref) {
   let {
     credentials,
@@ -738,6 +574,7 @@ function SignUp(_ref) {
     handleChangeAuth
   } = _ref;
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h2", null, "SignUp"), /*#__PURE__*/React.createElement("form", {
+    className: "sign__up__form",
     onSubmit: e => {
       e.preventDefault();
       signUp();
@@ -825,29 +662,14 @@ body {
   color: var(--text-black);
 }
 
-.KTmxx2sH00E53HXHCND1 {
-  width: 100%;
+form {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-}
-.KTmxx2sH00E53HXHCND1 img {
-  width: 50%;
-  max-height: 300px;
-  margin: 20px;
-  border: solid 5px black;
-}
-.KTmxx2sH00E53HXHCND1 h1 {
-  width: 100%;
-  text-align: center;
-  color: rgba(23, 5, 58, 0.8);
-  background-color: crimson;
-}`, "",{"version":3,"sources":["webpack://./src/App.module.scss"],"names":[],"mappings":"AAAA;EACI,sBAAA;EACA,qBAAA;EACA,oBAAA;EACA,qBAAA;AACJ;;AAEA;EACI,SAAA;EACA,YAAA;EACA,iBAAA;EACA,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,mBAAA;EACA,iCAAA;EACA,wBAAA;AACJ;;AAEA;EACI,WAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,sBAAA;AACJ;AAAI;EACI,UAAA;EACA,iBAAA;EACA,YAAA;EACA,uBAAA;AAER;AAAI;EACI,WAAA;EACA,kBAAA;EACA,2BAAA;EACA,yBAAA;AAER","sourcesContent":[":root{\n    --offwhite: whitesmoke;\n    --text-light: #968c84;\n    --text-dark: #615954;\n    --text-black: #161616;\n}\n\nbody {\n    margin: 0;\n    padding: 1vw;\n    min-height: 100vh;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    background-color: var(--offwhite);\n    color: var(--text-black);\n}\n\n.banner{\n    width: 100%;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    flex-direction: column;\n    img {\n        width: 50%;\n        max-height: 300px;\n        margin: 20px;\n        border: solid 5px black;\n    }\n    h1 {\n        width: 100%;\n        text-align: center;\n        color: rgba(23,5, 58, 0.8);\n        background-color: crimson;\n    }\n\n}\n"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/App.module.scss"],"names":[],"mappings":"AAAA;EACI,sBAAA;EACA,qBAAA;EACA,oBAAA;EACA,qBAAA;AACJ;;AAEA;EACI,SAAA;EACA,YAAA;EACA,iBAAA;EACA,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,mBAAA;EACA,iCAAA;EACA,wBAAA;AACJ;;AAEA;EACI,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,mBAAA;AACJ","sourcesContent":[":root{\n    --offwhite: whitesmoke;\n    --text-light: #968c84;\n    --text-dark: #615954;\n    --text-black: #161616;\n}\n\nbody {\n    margin: 0;\n    padding: 1vw;\n    min-height: 100vh;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    background-color: var(--offwhite);\n    color: var(--text-black);\n}\n\nform {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n}\n"],"sourceRoot":""}]);
 // Exports
-___CSS_LOADER_EXPORT___.locals = {
-	"banner": `KTmxx2sH00E53HXHCND1`
-};
+___CSS_LOADER_EXPORT___.locals = {};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
 
@@ -1147,15 +969,44 @@ ___CSS_LOADER_EXPORT___.locals = {};
 
 /***/ }),
 
-/***/ "./src/App.module.scss":
-/*!*****************************!*\
-  !*** ./src/App.module.scss ***!
-  \*****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/sass-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/components/SignUp/SignUp.module.scss":
+/*!*****************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/sass-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/components/SignUp/SignUp.module.scss ***!
+  \*****************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "./node_modules/css-loader/dist/runtime/sourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.AMBMYPzpvH8JJ7yYJR0T {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}`, "",{"version":3,"sources":["webpack://./src/components/SignUp/SignUp.module.scss"],"names":[],"mappings":"AAAA;EACI,aAAA;EACA,sBAAA;EACA,uBAAA;AACJ","sourcesContent":[".sign__up__form {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n}\n"],"sourceRoot":""}]);
+// Exports
+___CSS_LOADER_EXPORT___.locals = {
+	"sign__up__form": `AMBMYPzpvH8JJ7yYJR0T`
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./src/App.module.scss":
+/*!*****************************!*\
+  !*** ./src/App.module.scss ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
@@ -1195,7 +1046,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_App_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_App_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_App_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+       /* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_App_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_App_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_App_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
 
 
 /***/ }),
@@ -1454,6 +1305,56 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
        /* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_Login_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_Login_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_Login_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
 
 
+/***/ }),
+
+/***/ "./src/components/SignUp/SignUp.module.scss":
+/*!**************************************************!*\
+  !*** ./src/components/SignUp/SignUp.module.scss ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_SignUp_module_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!../../../node_modules/sass-loader/dist/cjs.js!../../../node_modules/postcss-loader/dist/cjs.js!./SignUp.module.scss */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/sass-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/components/SignUp/SignUp.module.scss");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_SignUp_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_SignUp_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_SignUp_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_SignUp_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
 /***/ })
 
 /******/ 	});
@@ -1476,7 +1377,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
@@ -1622,9 +1523,9 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_css-loader_dist_runtime_api_js-node_modules_css-loader_dist_runtime_sour-b53f7e"], () => (__webpack_require__("./src/index.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_css-loader_dist_runtime_api_js-node_modules_css-loader_dist_runtime_sour-0ab90a"], () => (__webpack_require__("./src/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.e1ca9fdd630b5da05e31eeb5e71798ac.js.map
+//# sourceMappingURL=App.7cd0ae30c70f828976439911af63da93.js.map
