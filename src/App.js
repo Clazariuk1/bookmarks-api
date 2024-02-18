@@ -119,6 +119,23 @@ export default function App() {
         }
     }
 
+    // must continue examining and link/referencing list all bookmarks.
+
+    const listAllBookmarks = async () => {
+        try {
+            const response = await fetch('/api/bookmarks', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            const data = await response.json()
+            setBookmarks(data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const listBookmarksByUser = async () => {
         try {
             const response = await fetch('/api/users/bookmarks', {
@@ -259,7 +276,7 @@ export default function App() {
                 bookmark={bookmark}
                 handleChange={handleChange}
             />
-
+            <SearchBar />
             <BookmarkList
                 bookmarks={bookmarks}
                 deleteBookmark={deleteBookmark}

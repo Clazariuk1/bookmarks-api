@@ -3,8 +3,8 @@ const bookmarkCtrl = require('../../controllers/api/bookmarks')
 const checkToken = require('../../config/checkToken')
 const ensureLoggedIn = require('../../config/ensureLoggedIn')
 
-// Index --> must find solution for getting ALL bookmarks, not just loggedin.
-// router.get('/', {/*checkToken, ensureLoggedIn*/}, bookmarkCtrl.index, bookmarkCtrl.jsonBookmarks)
+// Index --> must find solution for getting ALL bookmarks, not just loggedin. -> This is crashing me.
+// router.get('/', checkToken, ensureLoggedIn, bookmarkCtrl.index, bookmarkCtrl.jsonBookmarks)
 // Delete
 router.delete('/:id', checkToken, ensureLoggedIn, bookmarkCtrl.destroyBookmark, bookmarkCtrl.respondWithBookmark)
 // Update

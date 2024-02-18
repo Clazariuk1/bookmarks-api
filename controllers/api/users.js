@@ -37,7 +37,8 @@ const getBookmarksByUser = async (req, res, next) => {
         const user = await User.findOne({ email: res.locals.data.email }).populate('bookmarks').sort('bookmarks.createdAt').exec()
         console.log(user)
         const bookmarks = user.bookmarks
-        res.locals.data.bookmarks = bookmarks
+        res.locals.data.bookmarks = bookmarks.sort().reverse()
+        console.log(res.locals.data.bookmarks)
         next()
     } catch (error) {
         res.status(400).json({ msg: error.message })

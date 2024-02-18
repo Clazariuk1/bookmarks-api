@@ -142,6 +142,23 @@ function App() {
       });
     }
   };
+
+  // must continue examining and link/referencing list all bookmarks.
+
+  const listAllBookmarks = async () => {
+    try {
+      const response = await fetch('/api/bookmarks', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const data = await response.json();
+      setBookmarks(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const listBookmarksByUser = async () => {
     try {
       const response = await fetch('/api/users/bookmarks', {
@@ -265,7 +282,7 @@ function App() {
     createBookmark: createBookmark,
     bookmark: bookmark,
     handleChange: handleChange
-  }), /*#__PURE__*/React.createElement(_components_BookmarkList_BookmarkList__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }), /*#__PURE__*/React.createElement(_components_Searchbar__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/React.createElement(_components_BookmarkList_BookmarkList__WEBPACK_IMPORTED_MODULE_1__["default"], {
     bookmarks: bookmarks,
     deleteBookmark: deleteBookmark,
     updateBookmark: updateBookmark
@@ -519,13 +536,17 @@ function Login(_ref) {
 /*!*************************************!*\
   !*** ./src/components/Searchbar.js ***!
   \*************************************/
-/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 
 // how do I specify where the search result will display? Need functioning search bar at top of bookmarks index only.
+// useEffect to manipulate data, useState to grab it
 
 const SearchBar = _ref => {
   let {
@@ -551,7 +572,7 @@ const SearchBar = _ref => {
     onClick: handleSearch
   }, "Search"));
 };
-/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (SearchBar);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SearchBar);
 
 /***/ }),
 
@@ -1528,4 +1549,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.7cd0ae30c70f828976439911af63da93.js.map
+//# sourceMappingURL=App.b9c850458dadb8f0eed05d8400df3d8e.js.map
