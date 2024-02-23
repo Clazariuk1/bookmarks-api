@@ -18,7 +18,7 @@ export default function Auth({
         const getToken = () => {
             const token = window.localStorage.getItem('token')
             if (!token || token === 'null' || token === 'undefined') return null
-            const payload = JSON.parse(window.atob(token.split('.')[1]))
+            const payload = JSON.parse(atob(localStorage.token.split('.')[1]))
             if (payload.exp < Date.now() / 1000) {
                 window.localStorage.removeItem('token')
                 return null
@@ -26,7 +26,7 @@ export default function Auth({
             return token
         }
         const myToken = getToken()
-        const data = myToken ? JSON.parse(window.atob(myToken.split('.')[1])).user : null
+        const data = myToken ? JSON.parse(atob(localStorage.token.split('.')[1])).user : null
         setUser(data)
         setToken(myToken)
     }, [])

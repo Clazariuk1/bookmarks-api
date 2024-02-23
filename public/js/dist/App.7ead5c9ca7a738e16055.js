@@ -13,11 +13,10 @@
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_BookmarkList_BookmarkList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/BookmarkList/BookmarkList */ "./src/components/BookmarkList/BookmarkList.js");
-/* harmony import */ var _App_module_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App.module.scss */ "./src/App.module.scss");
-/* harmony import */ var _components_Searchbar_Searchbar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Searchbar/Searchbar */ "./src/components/Searchbar/Searchbar.js");
-/* harmony import */ var _components_Auth_Auth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Auth/Auth */ "./src/components/Auth/Auth.js");
-/* harmony import */ var _components_CreateBookmark_CreateBookmark__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/CreateBookmark/CreateBookmark */ "./src/components/CreateBookmark/CreateBookmark.js");
+/* harmony import */ var _components_Auth_Auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Auth/Auth */ "./src/components/Auth/Auth.js");
+/* harmony import */ var _components_CreateBookmark_CreateBookmark__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/CreateBookmark/CreateBookmark */ "./src/components/CreateBookmark/CreateBookmark.js");
+/* harmony import */ var _components_BookmarkList_BookmarkList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/BookmarkList/BookmarkList */ "./src/components/BookmarkList/BookmarkList.js");
+/* harmony import */ var _App_module_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./App.module.scss */ "./src/App.module.scss");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -29,27 +28,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
 
 
-
 function App() {
-  const [user, setUser] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const [token, setToken] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
-  const [searchInput, setSearchInput] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
-  const [bookmarks, setBookmarks] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  const [bookmark, setBookmark] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
-    title: '',
-    url: ''
-  });
-  const [credentials, setCredentials] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
-    email: '',
-    password: '',
-    name: ''
-  });
-  const isThereSearchTerm = function isThereSearchTerm(searchTerm) {
-    if (searchInput === '') {
-      return false;
-    }
-    return true;
-  };
   const handleChangeAuth = event => {
     setCredentials(_objectSpread(_objectSpread({}, credentials), {}, {
       [event.target.name]: event.target.value
@@ -60,6 +39,17 @@ function App() {
       [event.target.name]: event.target.value
     }));
   };
+  const [credentials, setCredentials] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    email: '',
+    password: '',
+    name: ''
+  });
+  const [bookmark, setBookmark] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    title: '',
+    url: ''
+  });
+  const [bookmarks, setBookmarks] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [token, setToken] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const login = async () => {
     try {
       const response = await fetch('/api/users/login', {
@@ -81,24 +71,18 @@ function App() {
       window.location.reload();
     }
   };
-
-  // this seems off. you should consider redoing to model after blog demo
-
-  const signUp = async credentials => {
+  const signUp = async () => {
     try {
       const response = await fetch('/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          credentials
-        })
+        body: JSON.stringify(_objectSpread({}, credentials))
       });
-      const data = await response.json();
-      setUser(data.user);
-      setToken(data.token);
-      localStorage.setItem('token', data.token);
+      const tokenResponse = await response.json();
+      setToken(tokenResponse);
+      localStorage.setItem('token', JSON.stringify(tokenResponse));
     } catch (error) {
       console.error(error);
     } finally {
@@ -117,10 +101,6 @@ function App() {
       });
       const data = await response.json();
       setBookmarks([data, ...bookmarks]);
-      setBookmark({
-        title: '',
-        url: ''
-      });
     } catch (error) {
       console.error(error);
     } finally {
@@ -128,23 +108,6 @@ function App() {
         title: '',
         url: ''
       });
-    }
-  };
-
-  // must continue examining and link/referencing list all bookmarks.
-
-  const listAllBookmarks = async () => {
-    try {
-      const response = await fetch('/api/bookmarks', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      const data = await response.json();
-      setBookmarks(data);
-    } catch (error) {
-      console.error(error);
     }
   };
   const listBookmarksByUser = async () => {
@@ -164,11 +127,11 @@ function App() {
   };
   const deleteBookmark = async id => {
     try {
-      const response = await fetch("api/bookmarks/".concat(id), {
+      const response = await fetch("/api/bookmarks/".concat(id), {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: "Bearer".concat(token)
+          Authorization: "Bearer ".concat(token)
         }
       });
       const data = await response.json();
@@ -192,18 +155,9 @@ function App() {
       });
       const data = await response.json();
       const bookmarksCopy = [...bookmarks];
-      const index = bookmarks.findIndex(bookmark => id === bookmark._id);
+      const index = bookmarksCopy.findIndex(bookmark => id === bookmark._id);
       bookmarksCopy[index] = _objectSpread(_objectSpread({}, bookmarksCopy[index]), updatedData);
       setBookmarks(bookmarksCopy);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const getBookmarks = async () => {
-    try {
-      const response = await fetch('/api/bookmarks');
-      const foundBookmarks = await response.json();
-      setBookmarks(foundBookmarks.reverse());
     } catch (error) {
       console.error(error);
     }
@@ -220,41 +174,42 @@ function App() {
       setToken(JSON.parse(tokenData));
     }
   }, []);
-  // const [searchInput, setSearchInput] = useState('') /* REFERENCE ONLY COMMENT, DO NOT PRESERVE */
-
-  const handleSearch = (searchInput, bookmarks) => {
-    if (!searchInput) {
-      return bookmarks;
-    }
-    return bookmarks.filter(bookmark => bookmark.title.includes(searchInput));
-  };
   return /*#__PURE__*/React.createElement(React.Fragment, null, token ? /*#__PURE__*/React.createElement("button", {
     onClick: () => {
       localStorage.removeItem('token');
       window.location.reload();
     }
-  }, "Logout") : '', /*#__PURE__*/React.createElement(_components_Auth_Auth__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, "Logout") : '', /*#__PURE__*/React.createElement(_components_Auth_Auth__WEBPACK_IMPORTED_MODULE_1__["default"], {
     login: login,
     credentials: credentials,
     handleChangeAuth: handleChangeAuth,
     signUp: signUp,
     setToken: setToken,
     token: token
-  }), /*#__PURE__*/React.createElement(_components_CreateBookmark_CreateBookmark__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), /*#__PURE__*/React.createElement(_components_CreateBookmark_CreateBookmark__WEBPACK_IMPORTED_MODULE_2__["default"], {
     createBookmark: createBookmark,
     bookmark: bookmark,
     handleChange: handleChange
-  }), "isThereSearchTerm ?", /*#__PURE__*/React.createElement(_components_BookmarkList_BookmarkList__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }), /*#__PURE__*/React.createElement(_components_BookmarkList_BookmarkList__WEBPACK_IMPORTED_MODULE_3__["default"], {
     bookmarks: bookmarks,
     deleteBookmark: deleteBookmark,
     updateBookmark: updateBookmark
-  }), ":", /*#__PURE__*/React.createElement(_components_BookmarkList_BookmarkList__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/React.createElement(_components_Searchbar_Searchbar__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    bookmarks: bookmarks,
-    searchInput: searchInput,
-    setSearchInput: setSearchInput,
-    onKeyDown: handleSearch
   }));
 }
+
+// <SearchBar
+// bookmarks={bookmarks}
+// searchInput={searchInput}
+// setSearchInput={setSearchInput}
+// onKeyDown={handleSearch}
+// />
+
+// const handleSearch = (searchInput, bookmarks) => {
+//     if(!searchInput) {
+//         return bookmarks
+//     }
+//     return bookmarks.filter(bookmark => bookmark.title.includes(searchInput))
+// }
 
 /***/ }),
 
@@ -292,7 +247,7 @@ function Auth(_ref) {
     const getToken = () => {
       const token = window.localStorage.getItem('token');
       if (!token || token === 'null' || token === 'undefined') return null;
-      const payload = JSON.parse(window.atob(token.split('.')[1]));
+      const payload = JSON.parse(atob(localStorage.token.split('.')[1]));
       if (payload.exp < Date.now() / 1000) {
         window.localStorage.removeItem('token');
         return null;
@@ -300,7 +255,7 @@ function Auth(_ref) {
       return token;
     };
     const myToken = getToken();
-    const data = myToken ? JSON.parse(window.atob(myToken.split('.')[1])).user : null;
+    const data = myToken ? JSON.parse(atob(localStorage.token.split('.')[1])).user : null;
     setUser(data);
     setToken(myToken);
   }, []);
@@ -499,119 +454,6 @@ function Login(_ref) {
 
 /***/ }),
 
-/***/ "./src/components/Searchbar/Searchbar.js":
-/*!***********************************************!*\
-  !*** ./src/components/Searchbar/Searchbar.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Searchbar)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Searchbar_module_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Searchbar.module.scss */ "./src/components/Searchbar/Searchbar.module.scss");
-/* harmony import */ var _Bookmark_Bookmark__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Bookmark/Bookmark */ "./src/components/Bookmark/Bookmark.js");
-/* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-
-
-// MUST FINALIZE SEARCH COMPONENT BY INVESTIGATING HOW TO CORRECTLY ACCESS THE REAL BOOKMARKS
-const bookmarks = [{
-  title: "kevin",
-  url: "isaChode"
-}, {
-  title: "cormack",
-  url: "macarthy"
-}, {
-  title: "bobby",
-  url: "bouche"
-}, {
-  title: "Ally",
-  url: "Aron"
-}];
-const searchResults = (searchInput, bookmarks) => {
-  if (!searchInput) {
-    return bookmarks;
-  }
-  return bookmarks.filter(bookmark => bookmark.title.includes(searchInput));
-};
-function Searchbar() {
-  const [searchInput, setSearchInput] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
-  const filteredBookmarks = searchResults(searchInput, bookmarks);
-  return /*#__PURE__*/React.createElement("div", {
-    className: "search__bar"
-  }, /*#__PURE__*/React.createElement("label", null, "Search for your bookmark here", /*#__PURE__*/React.createElement("input", {
-    type: "text",
-    placeholder: "Search...",
-    onChange: e => setSearchInput(e.target.value)
-  })), /*#__PURE__*/React.createElement("ul", null, filteredBookmarks.map((bookmark, index) => /*#__PURE__*/React.createElement("li", {
-    key: index
-  }, bookmark.title))));
-}
-
-// how do I specify where the search result will display? Need functioning search bar at top of bookmarks index only.
-// useEffect to manipulate data, useState to grab it
-
-// don't handle change on instances of basic functionality to occur. no need for things that DONT auto change. like form submission, if no page reload no need
-
-// if you want the user to be able to make up tags you can't use enum. If you want to be able to ADD tags, the model should have an array of strings called tags. it's much simpler than you think it is. Searching by tags is a MATCH, not an includes search. (would still technically work.)
-
-// const SearchBar = ({input}) => {
-
-//     // const [searchResults, setSearchResults] = useState(input)
-
-//     const handleSearch = (e) => {
-//         const searchTerm = e.target.value
-//         setSearchInput(searchTerm)
-//     }
-//         const results = bookmarks.filter(bookmark => bookmark.title.toLowerCase().includes(searchTerm.toLowerCase()))
-
-//         setSearchResults(results)
-//     }
-
-// there is no universal way to do a searchbar.
-// you've already acquired full list, don't need to contact api again in small scale search for this singular instance. LARGER databases require more complex search that calls the database again .  --> NO need to implement quick sort algorithms on small-scale search. that's big fish stuff.
-
-//binary search with extra steps. -> MongoDB HAS search built in. you just need to tell it to search .    .find({}) using regular expression.  Also has built in sorting .  .sort.filter.
-
-// for tag search
-// const handleSelectTag = (e)=> {
-//     const term = e.target.value
-//     setSearchInput(term)
-
-// bookmark data must be a prop GIVEN to the searchbar component to successfully acquire ma
-// bookmarks are an OBJECT so you must specifically target the ELEMENT in question.  then call .includes to allow for that.
-//     // const results = bookmarks.filter(bookmark => bookmark.title.toLowerCase().includes(term.toLowerCase())) --> MUST call filter on an ARRAY.
-//     // e.preventDefault()
-//     handleSearch(searchInput)
-//     // onSearch(searchInput) I feel like this is irrelevant atm
-// }
-// JSX CANT DO HANDLE SEARCH. you can't put a prop in an input like handlesearch. onsubmit={handleSearch} --> whatever you choose, it MUST be an on action name. onkeydown==enter would work as well.
-
-/* tag buttons:
-
- <div className="tag__buttons"
-        id="tag-buttons"
-        >
-        <button
-        className="tag__btn"
-        value="TagOne"
-        onClick={handleSearch}
-        >Tag One Search</button>
-        <button className="tag__btn"
-        value="TagTwo"
-        onClick={handleSearch}
-        >Tag Two Search</button>
-        <button className="tag__btn"
-        value="TagThree"
-        onClick={handleSearch}
-        >Tag Three Search</button>
-        </div>
-*/
-
-/***/ }),
-
 /***/ "./src/components/SignUp/SignUp.js":
 /*!*****************************************!*\
   !*** ./src/components/SignUp/SignUp.js ***!
@@ -768,7 +610,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.UhNDaS6ukZ19AIax4ZjN {
   cursor: pointer;
   display: block;
   margin: 0 auto;
-}`, "",{"version":3,"sources":["webpack://./src/components/Auth/Auth.module.scss"],"names":[],"mappings":"AAAA;EACK,kCAAA;EACA,sBAAA;EACA,iBAAA;EACA,kBAAA;EACA,kBAAA;AACL;;AAEA;EACI,kCAAA;EACA,sBAAA;EACA,iBAAA;EACA,iBAAA;EACA,kBAAA;EACA,kBAAA;EACA,eAAA;EACA,cAAA;EACA,cAAA;AACJ","sourcesContent":[".h1 {\n     background-color: var(--text-dark);\n     color: var(--offwhite);\n     font-size: 2.5rem;\n     border-radius: 4px;\n     text-align: center;\n}\n\n.button {\n    background-color: var(--text-dark);\n    color: var(--offwhite);\n    font-size: 2.5rem;\n    min-height: 10rem;\n    border-radius: 4px;\n    text-align: center;\n    cursor: pointer;\n    display: block;\n    margin: 0 auto;\n}\n"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/components/Auth/Auth.module.scss"],"names":[],"mappings":"AAAA;EACI,kCAAA;EACA,sBAAA;EACA,iBAAA;EACA,kBAAA;EACA,kBAAA;AACJ;;AAEA;EACI,kCAAA;EACA,sBAAA;EACA,iBAAA;EACA,iBAAA;EACA,kBAAA;EACA,kBAAA;EACA,eAAA;EACA,cAAA;EACA,cAAA;AACJ","sourcesContent":[".h1{\n    background-color: var(--text-dark);\n    color: var(--offwhite);\n    font-size: 2.5rem;\n    border-radius: 4px;\n    text-align: center;\n}\n\n.button {\n    background-color: var(--text-dark);\n    color: var(--offwhite);\n    font-size: 2.5rem;\n    min-height: 10rem;\n    border-radius: 4px;\n    text-align: center;\n    cursor: pointer;\n    display: block;\n    margin: 0 auto;\n}\n"],"sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"h1": `UhNDaS6ukZ19AIax4ZjN`,
@@ -1021,74 +863,6 @@ form input {
 }`, "",{"version":3,"sources":["webpack://./src/components/Login/Login.module.scss"],"names":[],"mappings":"AAAA;EACI,aAAA;EACA,sBAAA;EACA,uBAAA;EACA,mBAAA;EACA,kCAAA;EACA,sBAAA;AACJ;AAAI;EACI,gBAAA;EACA,sBAAA;EACA,aAAA;EACA,aAAA;AAER","sourcesContent":["form {\n    display: fles;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    border: 1px solid var(--text-dark);\n    border-radius: .1vmin;\n    input {\n        font-size: 1vmin;\n        border-radius: .1vmin;\n        outline: none;\n        height: 2vmin;\n    }\n}\n"],"sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/sass-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/components/Searchbar/Searchbar.module.scss":
-/*!***********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/sass-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/components/Searchbar/Searchbar.module.scss ***!
-  \***********************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "./node_modules/css-loader/dist/runtime/sourceMaps.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `.D22EZ2LaN16aTlaZ5Lh5 {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  display: flex;
-  background-color: blue;
-  cursor: pointer;
-  width: 20px;
-  padding: 5px;
-  margin: 0.1vmin;
-}
-
-.UAEG2jo8Mfnoq65UkgaW:hover {
-  color: blue;
-  background-color: var(--offwhite);
-}
-
-.hPqghnWSR9eY46PhDCdl {
-  display: flex;
-  background-color: var(--text-light);
-  border-radius: 5px;
-  border: solid 0.25rem var(--text-dark);
-  cursor: grab;
-}
-
-.maRFQmESJSgL8BUxkEKQ {
-  display: flex;
-  justify-content: space-between;
-  width: 80px;
-  padding: 5px;
-  margin: 1vmin;
-}
-
-#oMeB4sAWTPITCHeuzqIJ .D22EZ2LaN16aTlaZ5Lh5 {
-  background-color: yellow;
-  color: yellow;
-}`, "",{"version":3,"sources":["webpack://./src/components/Searchbar/Searchbar.module.scss"],"names":[],"mappings":"AAAA;EACI,uBAAA;EACA,mBAAA;EACA,kBAAA;EACA,aAAA;EACA,sBAAA;EACA,eAAA;EACA,WAAA;EACA,YAAA;EACA,eAAA;AACJ;;AAEA;EACI,WAAA;EACA,iCAAA;AACJ;;AAGA;EACI,aAAA;EACA,mCAAA;EACA,kBAAA;EACA,sCAAA;EACA,YAAA;AAAJ;;AAGA;EACI,aAAA;EACA,8BAAA;EACA,WAAA;EACA,YAAA;EACA,aAAA;AAAJ;;AAGA;EACI,wBAAA;EACA,aAAA;AAAJ","sourcesContent":[".tag__btn {\n    justify-content: center;\n    align-items: center;\n    text-align: center;\n    display: flex;\n    background-color: blue;\n    cursor: pointer;\n    width: 20px;\n    padding: 5px;\n    margin: .1vmin;\n}\n\n.tag__bn:hover {\n    color: blue;\n    background-color: var(--offwhite);\n}\n\n\n.search__bar {\n    display: flex;\n    background-color: var(--text-light);\n    border-radius: 5px;\n    border: solid .25rem var(--text-dark);\n    cursor: grab;\n}\n\n.tag__buttons {\n    display: flex;\n    justify-content: space-between;\n    width: 80px;\n    padding: 5px;\n    margin: 1vmin;\n}\n\n#tag-buttons .tag__btn {\n    background-color: yellow;\n    color: yellow;\n}\n"],"sourceRoot":""}]);
-// Exports
-___CSS_LOADER_EXPORT___.locals = {
-	"tag__btn": `D22EZ2LaN16aTlaZ5Lh5`,
-	"tag__bn": `UAEG2jo8Mfnoq65UkgaW`,
-	"search__bar": `hPqghnWSR9eY46PhDCdl`,
-	"tag__buttons": `maRFQmESJSgL8BUxkEKQ`,
-	"tag-buttons": `oMeB4sAWTPITCHeuzqIJ`
-};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
 
@@ -1432,56 +1206,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./src/components/Searchbar/Searchbar.module.scss":
-/*!********************************************************!*\
-  !*** ./src/components/Searchbar/Searchbar.module.scss ***!
-  \********************************************************/
-/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_Searchbar_module_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!../../../node_modules/sass-loader/dist/cjs.js!../../../node_modules/postcss-loader/dist/cjs.js!./Searchbar.module.scss */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/sass-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/components/Searchbar/Searchbar.module.scss");
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-
-      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-    
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_Searchbar_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"], options);
-
-
-
-
-       /* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_Searchbar_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_Searchbar_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_Searchbar_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
-
-
-/***/ }),
-
 /***/ "./src/components/SignUp/SignUp.module.scss":
 /*!**************************************************!*\
   !*** ./src/components/SignUp/SignUp.module.scss ***!
@@ -1703,4 +1427,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.593292bf168f2499a6fd9800f2904adb.js.map
+//# sourceMappingURL=App.043e953822e80b8dc1808704f4834d75.js.map
