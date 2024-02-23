@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const User = require('../../models/user')
 const crypto = require('crypto')
 
+
 const signUp = async (req, res, next) => {
     try {
         const user = await User.create(req.body)
@@ -32,6 +33,29 @@ const login = async (req, res, next) => {
     }
 }
 
+
+const updateUser = async (req, res) => {
+    try{
+      const updates = Object.keys(req.body)
+      const user = await User.findOne({ _id: req.params.id })
+      updates.forEach(update => user[update] = req.body[update])
+      await user.save()
+      res.json(user)
+    }catch(error){
+      res.status(400).json({message: error.message})
+    }
+
+  }
+
+const deleteUser = async (req, res) => {
+    try{
+        const user = await User.findByIdAndDelete(req.user.id)
+      res.json({ message: 'User deleted' })
+    }catch(error){
+      res.status(400).json({message: error.message})
+    }
+  }
+
 const getBookmarksByUser = async (req, res, next) => {
     try {
         const user = await User.findOne({ email: res.locals.data.email }).populate('bookmarks').sort('bookmarks.createdAt').exec()
@@ -56,7 +80,28 @@ const respondWithBookmarks = (req, res) => {
     res.json(res.locals.data.bookmarks)
 }
 
+//auth issue?
+
+const auth = async (req, res, next) => {
+    try {
+      const token = req.header('Authorization').replace('Bearer ', '')
+      const data = jwt.verify(token, process.env.SECRET)
+      const user = await User.findOne({ _id: data._id })
+      if (!user) {
+        throw new Error()
+      }
+      req.user = user
+      next()
+    } catch (error) {
+      res.status(401).send('Not authorized')
+    }
+  }
+
+
 module.exports = {
+    auth,
+    updateUser,
+    deleteUser,
     signUp,
     login,
     getBookmarksByUser,

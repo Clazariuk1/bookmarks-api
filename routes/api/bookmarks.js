@@ -1,7 +1,9 @@
 const router = require('express').Router()
 const bookmarkCtrl = require('../../controllers/api/bookmarks')
+const searchCtrl = require('../../controllers/api/searchbar')
 const checkToken = require('../../config/checkToken')
 const ensureLoggedIn = require('../../config/ensureLoggedIn')
+
 
 // Index --> must find solution for getting ALL bookmarks, not just loggedin. -> This is crashing me.
 // router.get('/', checkToken, ensureLoggedIn, bookmarkCtrl.index, bookmarkCtrl.jsonBookmarks)

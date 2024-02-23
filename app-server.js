@@ -14,6 +14,8 @@ app.use(logger('dev'))
 app.use(favicon(path.join(__dirname, 'public', 'img','logo.png')))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/api/bookmarks', require('./routes/api/bookmarks'))
+// must add searchbar to app server.
+app.use('/api/searchbar', require('./routes/api/searchbar'))
 // http://localhost:8000/api/bookmarks
 app.use('/api/users', require('./routes/api/users'))
 app.get('*', (req, res) => {

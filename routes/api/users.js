@@ -8,9 +8,9 @@ router.post('/', userCtrl.signUp, userCtrl.respondWithToken)
 
 router.post('/login', userCtrl.login, userCtrl.respondWithToken)
 
-router.post('/')
+router.put('/:id', checkToken, ensureLoggedIn, userCtrl.updateUser)
 
-// router.delete('/:id', user)
+router.delete('/:id', checkToken, ensureLoggedIn, userCtrl.deleteUser)
 
 router.get('/bookmarks', checkToken, ensureLoggedIn, userCtrl.getBookmarksByUser, userCtrl.respondWithBookmarks)
 

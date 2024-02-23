@@ -1,36 +1,32 @@
 import { useState, useEffect } from 'react'
 import BookmarkList from './components/BookmarkList/BookmarkList'
 import styles from './App.module.scss'
-import SearchBar from './components/Searchbar'
+import SearchBar from './components/Searchbar/Searchbar'
 import Auth from './components/Auth/Auth'
 import CreateBookmark from './components/CreateBookmark/CreateBookmark'
 
-// // BELOW : Algorithm to sort alphabetically. I'm using quick sort just to get on with my life.
-
-// // FOR SOME REASON the quick sort algorithm below was breaking the web app; unsure why.
-
-// function quickSort(array) {
-//     if (array.length < 2) {
-//         return array
-//     }
-//     const pivot = array[array.length - 1]
-//     const leftPart = []
-//     const rightPart = []
-
-//     for (let i = 0; i < array.length; i++) {
-//         if (array[i] < pivot) {
-//             leftPart.push(array[i])
-//         } else if (array[i] > pivot) {
-//             rightPart.push(array[i])
-//         }
-//     }
-//     const sortedLeft = quickSort(leftPart)
-//     const sortedRight = quickSort(rightPart)
-//     return sortedLeft.concat(pivot, sortedRight)
-// }
-
 export default function App() {
-    const [searchResults, setSearchResults] = useState([])
+    const [user, setUser] = useState(null)
+    const [token, setToken] = useState('')
+    const [searchInput, setSearchInput] = useState('')
+
+    const [bookmarks, setBookmarks] = useState([])
+    const [bookmark, setBookmark] = useState({
+        title: '',
+        url: ''
+    })
+    const [credentials, setCredentials] = useState({
+        email: '',
+        password: '',
+        name: ''
+    })
+
+    const isThereSearchTerm = function(searchTerm) {
+        if (searchInput === '') {
+            return false
+        }
+        return true
+    }
 
     const handleChangeAuth = (event) => {
         setCredentials({ ...credentials, [event.target.name]: event.target.value })
@@ -40,19 +36,6 @@ export default function App() {
         setBookmark({ ...bookmark, [event.target.name]: event.target.value })
     }
 
-    const [credentials, setCredentials] = useState({
-        email: '',
-        password: '',
-        name: ''
-    })
-
-    const [bookmarks, setBookmarks] = useState([])
-    const [bookmark, setBookmark] = useState({
-        title: '',
-        url: ''
-    })
-
-    const [token, setToken] = useState('')
 
     const login = async () => {
         try {
@@ -73,18 +56,21 @@ export default function App() {
         }
     }
 
-    const signUp = async () => {
+    // this seems off. you should consider redoing to model after blog demo
+
+    const signUp = async (credentials) => {
         try {
             const response = await fetch('/api/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ ...credentials })
+                body: JSON.stringify({ credentials })
             })
-            const tokenResponse = await response.json()
-            setToken(tokenResponse)
-            localStorage.setItem('token', JSON.stringify(tokenResponse))
+            const data = await response.json()
+            setUser(data.user)
+            setToken(data.token)
+            localStorage.setItem('token', data.token)
         } catch (error) {
             console.error(error)
         } finally {
@@ -214,42 +200,14 @@ export default function App() {
             setToken(JSON.parse(tokenData))
         }
     }, [])
+    // const [searchInput, setSearchInput] = useState('') /* REFERENCE ONLY COMMENT, DO NOT PRESERVE */
 
-    const handleSearch = (searchInput) => {
-        if (searchInput.length > 0) {
-            bookmarks.filter((bookmark) => {
-                if (bookmark.title.toUpperCase() === searchInput.toUpperCase()) {
-                    return alert('got it')
-                }
-                else {
-                    alert('nada.')
-                }
-            })
+    const handleSearch = (searchInput, bookmarks) => {
+        if(!searchInput) {
+            return bookmarks
         }
-        console.log('Test me search params.')
+        return bookmarks.filter(bookmark => bookmark.title.includes(searchInput))
     }
-
-    // trying to apply quicksort here is not working; commented out are edit attempts, original not commented below
-    /*
-    const getBookmarks = async () => {
-            try{
-                const response = await fetch('/api/bookmarks')
-                const foundBookmarks = await response.json()
-                setBookmarks(quickSort(foundBookmarks).reverse())
-                console.log('hey-yo!')
-            } catch(error){
-                console.error(error)
-            }
-        }
-        useEffect(() => {
-            getBookmarks()
-        }, [])
-    */
-
-    // useEffect(() => {
-    //     quickSort(getBookmarks())
-
-    // }, [])
     return (
         <>
             {
@@ -276,12 +234,30 @@ export default function App() {
                 bookmark={bookmark}
                 handleChange={handleChange}
             />
-            <SearchBar />
+
+
             <BookmarkList
                 bookmarks={bookmarks}
                 deleteBookmark={deleteBookmark}
                 updateBookmark={updateBookmark}
             />
+
+            :
+
+            <BookmarkList/>
+
+            <SearchBar
+                bookmarks={bookmarks}
+                searchInput={searchInput}
+                setSearchInput={setSearchInput}
+                onKeyDown={handleSearch}
+            />
+            {/*{showUpdate? <UpdateForm/> : <Bookmark/>} THIS IS WHERE YOU MUST INSERT THE TERNARY. RETURN BOOKMARK LIST OR SEARCHBAR. */}
+            {/* <BookmarkList
+                bookmarks={bookmarks}
+                deleteBookmark={deleteBookmark}
+                updateBookmark={updateBookmark}
+            /> */}
         </>
     )
 }

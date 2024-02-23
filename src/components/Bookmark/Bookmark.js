@@ -12,6 +12,7 @@ export default function Bookmark({
         <>
             <li>
                 <h4 onClick={() => setShowInput(!showInput)}>{bookmark.title}</h4>
+                {/* Examine this segment to edit for updating the url link as well as text. add additional input. */}
                 <input
                     ref={inputRef}
                     style={{ display: showInput ? 'block' : 'none' }}

@@ -15,8 +15,6 @@ const createBookmark = async (req, res, next) => {
     }
 }
 
-/****** R - Read *****/
-
 async function index(_, res ,next) {
     try {
         const bookmarks = await Bookmark.find({})
@@ -37,11 +35,13 @@ const updateBookmark = async (req, res, next) => {
     }
 }
 
-/***** D - destroy/delete *****/
-
+// have not called the actual user object from the database. user.findone with id params.
 const destroyBookmark = async (req, res, next) => {
     try {
-       const deletedBookmark = await Bookmark.findByIdAndDelete(req.params.id)
+       const deletedBookmark = await Bookmark.findByIdAndDelete({_id : req.params.id,  user: req.user._id})
+       const user = await User.findOne({_id: req.user._id })
+       user.bookmarks.pull(deletedBookmark)
+       await user.save()
        res.locals.data.bookmark = deletedBookmark
        next()
     } catch (error) {
